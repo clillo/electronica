@@ -20,6 +20,7 @@ public class PanelReal extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		//System.out.println("PanelReal.paint()");
 		g.setColor(Color.lightGray);
 		g.drawLine(getWidth()/2, 0,             getWidth()/2, getHeight());
 		g.drawLine(0,            getHeight()/2, getWidth(),   getHeight()/2);
@@ -53,4 +54,7 @@ public class PanelReal extends JPanel {
 		return new Punto((int) (absolutaX * this.getWidth()), (int) (absolutaY * this.getHeight()));
 	}
 	
+	public void limpia(){
+		trayectoria.clear();
+	}
 }

@@ -6,12 +6,17 @@ import javax.swing.JScrollBar;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionListener{
+public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionListener, ChangeListener, AdjustmentListener{
 
 	private static final long serialVersionUID = -5869553409971473557L;
 	
@@ -29,7 +34,17 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JLabel lblAnguloIzq;
 	private JLabel lblAnguloDer;
 	private static JTextField txtServoFaktor;
-
+	private JTextField txtD1;
+	private JTextField txtD2;
+	private JTextField txtD3;
+	private JTextField txtD4;
+	private JButton btnLimpia;
+	private JButton btnDibuja;
+	
+	private JSlider sldrEscala;
+	private JScrollBar scrlRobotY;
+	private JScrollBar scrlRobotX;
+	
 	public PanelPrincipal() {
 		setLayout(null);
 		
@@ -41,14 +56,17 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		panelPosicion.setBounds(10, 11, 150, 150);
 		add(panelPosicion);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(356, 11, 17, 153);
-		add(scrollBar);
+		scrlRobotY = new JScrollBar();
+		scrlRobotY.addAdjustmentListener(this);
+		scrlRobotY.setBounds(839, 11, 17, 280);
+		add(scrlRobotY);
 		
-		JScrollBar scrollBar_1 = new JScrollBar();
-		scrollBar_1.setOrientation(JScrollBar.HORIZONTAL);
-		scrollBar_1.setBounds(189, 172, 156, 17);
-		add(scrollBar_1);
+		scrlRobotX = new JScrollBar();
+		scrlRobotX.setOrientation(JScrollBar.HORIZONTAL);
+		scrlRobotX.addAdjustmentListener(this);
+
+		scrlRobotX.setBounds(555, 291, 281, 17);
+		add(scrlRobotX);
 		
 		txtPosRealX = new JTextField();
 		txtPosRealX.setBounds(10, 188, 74, 20);
@@ -82,6 +100,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		
 		cinematica = new CinematicaInversa();
 		cinematica.setPanelReal(panelReal);
+		cinematica.setPanelPrincipal(this);
 		
 		panelRobot.setBackground(Color.BLACK);
 		panelRobot.setBounds(555, 11, 281, 280);
@@ -107,10 +126,47 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		txtServoFaktor.setBounds(412, 22, 86, 20);
 		add(txtServoFaktor);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(412, 75, 89, 23);
-		btnNewButton.addActionListener(this);
-		add(btnNewButton);
+		btnDibuja = new JButton("Dibuja");
+		btnDibuja.setBounds(400, 99, 89, 23);
+		btnDibuja.addActionListener(this);
+		add(btnDibuja);
+		
+		txtD1 = new JTextField();
+		txtD1.setText("1");
+		txtD1.setBounds(383, 53, 28, 20);
+		add(txtD1);
+		txtD1.setColumns(10);
+		
+		txtD2 = new JTextField();
+		txtD2.setText("2");
+		txtD2.setColumns(10);
+		txtD2.setBounds(422, 53, 28, 20);
+		add(txtD2);
+		
+		txtD3 = new JTextField();
+		txtD3.setText("3");
+		txtD3.setColumns(10);
+		txtD3.setBounds(460, 53, 28, 20);
+		add(txtD3);
+		
+		txtD4 = new JTextField();
+		txtD4.setText("4");
+		txtD4.setColumns(10);
+		txtD4.setBounds(497, 53, 28, 20);
+		add(txtD4);
+		
+		btnLimpia = new JButton("Limpia");
+		btnLimpia.setBounds(400, 133, 89, 23);
+		btnLimpia.addActionListener(this);
+		add(btnLimpia);
+		
+		sldrEscala = new JSlider();
+		sldrEscala.setBounds(382, 263, 150, 23);
+		sldrEscala.addChangeListener(this);
+		sldrEscala.setMinimum(10);
+		sldrEscala.setMaximum(500);
+		sldrEscala.setValue(70);
+		add(sldrEscala);
 	
 		//cinematica.moverA(75, 47.5);
 	}
@@ -140,7 +196,35 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		cinematica.dibuja(1, 2, 3, 4);
+		
+		if (arg0.getSource().equals(btnDibuja))
+			new Thread(){
+				@Override
+				public void run() {
+					super.run();
+					cinematica.dibuja(Integer.parseInt(txtD1.getText()), Integer.parseInt(txtD2.getText()), Integer.parseInt(txtD3.getText()), Integer.parseInt(txtD4.getText()));
+					//this.repaint();
+					panelRobot.repaint();
+				}
+			}.start();
+			
+		if (arg0.getSource().equals(btnLimpia)){
+			panelRobot.limpia();
+			panelReal.limpia();
+			this.repaint();
+		}
+				
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		if (arg0.getSource().equals(sldrEscala))
+			panelRobot.setEscala(sldrEscala.getValue());
+	}
+
+	@Override
+	public void adjustmentValueChanged(AdjustmentEvent arg0) {
+		panelRobot.setOrigen(scrlRobotX.getValue(), scrlRobotY.getValue());
 		
 	}
 }

@@ -20,9 +20,18 @@ public class PanelRobot extends JPanel {
 	private Punto Q = new Punto(0, 0);
 
 	private ArrayList<Punto> trayectoria = new ArrayList<Punto>();
-
+	
+	private double escala;
+	private double origenX;
+	private double origenY;
+	
 	public PanelRobot() {
 		this.setBackground(Color.BLACK);
+		setOrigen(0, 0);
+	}
+	
+	public void limpia(){
+		trayectoria.clear();
 	}
 	
 	@Override
@@ -30,9 +39,10 @@ public class PanelRobot extends JPanel {
 		super.paint(g);
 		
 		g.setColor(Color.blue);
-		for (Punto p: trayectoria)
+		for (Punto p: trayectoria){
+			real2Pantalla(p);
 			g.drawOval(p.getIx(), p.getIy(), 2, 2);
-		
+		}
 		g.setColor(Color.red);
 		
 		real2Pantalla(O1);
@@ -53,7 +63,7 @@ public class PanelRobot extends JPanel {
 		g.drawLine(B2.getIx(), B2.getIy(), O2.getIx(), O2.getIy());
 
 		real2Pantalla(T);
-		trayectoria.add(new Punto(T.getIx(), T.getIy()));
+		trayectoria.add(new Punto(T.getDx(), T.getDy()));
 
 		g.fillOval(T.getIx()-4, T.getIy()-4, 8, 8);
 
@@ -77,11 +87,27 @@ public class PanelRobot extends JPanel {
 		g.drawLine(cero.getIx(), min.getIy(), cero.getIx(), max.getIy());	
 	}
 	
+	public void setEscala(int escala){
+		
+		this.escala = (100.0/(escala*1.0));
+		System.out.println("Escala: "+escala+" "+this.escala);
+//		for (Punto p: trayectoria)
+//			real2Pantalla(p);
+		this.repaint();
+	}
+	
+	public void setOrigen(int x, int y){
+		System.out.println("Origen: "+x+","+y);
+		origenX = (x - 5) - 50.0 ;
+		origenY = 200.0 + (y - 50);
+		this.repaint();
+	}
+	
 	private void real2Pantalla(Punto p){
 		Punto tmp = new Punto(p.getDx(), p.getDy());
 		CinematicaInversa.real2Pantalla(tmp);
-		double rx = tmp.getDx() * this.getWidth()/4 + 50 ;
-		double ry = this.getHeight() - ( tmp.getDy() * this.getHeight()/4 +200.0 );
+		double rx = tmp.getDx() * this.getWidth()*escala + origenX ;
+		double ry = this.getHeight() - ( tmp.getDy() * this.getHeight()*escala + origenY );
 	
 		//System.out.println(p.getDx() + "," + p.getDy()+" -> "+rx+","+ry);
 		p.setIx((int)rx);

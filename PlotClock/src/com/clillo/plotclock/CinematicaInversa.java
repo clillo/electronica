@@ -8,6 +8,7 @@ import com.clillo.plotclock.Servo.Id;
 public class CinematicaInversa {
 	
 	private PanelReal panelReal;
+	private PanelPrincipal panelPrincipal;
 	
 //	private double SERVOFAKTOR=600; // 630
 	
@@ -54,20 +55,13 @@ public class CinematicaInversa {
 		serial = null;
 	}
 	
-	public void  dibuja(int a1, int a2, int a3, int a4){
+	public void dibuja(int a1, int a2, int a3, int a4){
 		Numeros n = new Numeros();
 		n.dibuja(a1, a2, a3, a4);
 		ArrayList<Punto> trayectoria = n.getTrayectoria();
 		
-		for (Punto p: trayectoria){
+		for (Punto p: trayectoria)		
 			drawTo(p.getDx(), p.getDy());
-		/*	try {
-				Thread.sleep(40);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-		}
 	}
 	
 	public void moverA(double x, double y){
@@ -103,7 +97,7 @@ public class CinematicaInversa {
 			// draw line point by point
 			setXY(lastX + (i * dx / c), lastY + (i * dy / c));
 			try {
-				Thread.sleep(1);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 			}
 		}
@@ -158,12 +152,12 @@ public class CinematicaInversa {
 		servoDerecho.writeMicroseconds(anguloDerecho);
 		servoIzquerdo.writeMicroseconds(anguloIzquerdo);
 	
-		try {
+	/*	try {
 			Thread.sleep(40);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		try {
 			if (serial!=null)
@@ -172,6 +166,9 @@ public class CinematicaInversa {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		panelPrincipal.repaint();
+		panelReal.repaint();
 	}
 		
 	public double getCoordenadaRealX() {
@@ -186,6 +183,10 @@ public class CinematicaInversa {
 		this.panelReal = panelReal;
 	}
 	
+	public void setPanelPrincipal(PanelPrincipal panelPrincipal) {
+		this.panelPrincipal = panelPrincipal;
+	}
+
 	public static void main(String[] args) {
 		CinematicaInversa ci = new CinematicaInversa(true);
 		
