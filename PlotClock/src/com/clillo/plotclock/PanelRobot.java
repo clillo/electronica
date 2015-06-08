@@ -19,8 +19,9 @@ public class PanelRobot extends JPanel {
 	private Punto T = new Punto(0, 0);
 	private Punto Q = new Punto(0, 0);
 
-	private ArrayList<Punto> trayectoria = new ArrayList<Punto>();
-	
+	private ArrayList<Punto> trayectoriaReal = new ArrayList<Punto>();
+	private ArrayList<Punto> trayectoriaDeseada = new ArrayList<Punto>();
+
 	private double escala;
 	private double origenX;
 	private double origenY;
@@ -31,7 +32,8 @@ public class PanelRobot extends JPanel {
 	}
 	
 	public void limpia(){
-		trayectoria.clear();
+		trayectoriaReal.clear();
+		trayectoriaDeseada.clear();
 	}
 	
 	@Override
@@ -39,16 +41,23 @@ public class PanelRobot extends JPanel {
 		super.paint(g);
 		
 		g.setColor(Color.blue);
-		for (Punto p: trayectoria){
+		for (Punto p: trayectoriaReal){
 			real2Pantalla(p);
 			g.drawOval(p.getIx(), p.getIy(), 2, 2);
 		}
+		
+		g.setColor(Color.yellow);
+		for (Punto p: trayectoriaDeseada){
+			real2Pantalla(p);
+			g.drawOval(p.getIx(), p.getIy(), 2, 2);
+		}
+		
 		g.setColor(Color.red);
 		
 		real2Pantalla(O1);
 		real2Pantalla(O2);
+	
 
-		
 		g.fillOval(O1.getIx()-5, O1.getIy()-5, 10, 10);
 		g.fillOval(O2.getIx()-5, O2.getIy()-5, 10, 10);
 		
@@ -63,7 +72,7 @@ public class PanelRobot extends JPanel {
 		g.drawLine(B2.getIx(), B2.getIy(), O2.getIx(), O2.getIy());
 
 		real2Pantalla(T);
-		trayectoria.add(new Punto(T.getDx(), T.getDy()));
+		trayectoriaReal.add(new Punto(T.getDx(), T.getDy()));
 
 		g.fillOval(T.getIx()-4, T.getIy()-4, 8, 8);
 
@@ -228,5 +237,8 @@ public class PanelRobot extends JPanel {
 		else
 		    return 2;
 	}
-	
+
+	public void agregaPuntoActual(Punto puntoActual) {
+		trayectoriaDeseada.add(puntoActual);
+	}
 }

@@ -97,11 +97,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		txtCoordenadaRealY.setColumns(10);
 		txtCoordenadaRealY.setBounds(10, 232, 74, 20);
 		add(txtCoordenadaRealY);
-		
-		cinematica = new CinematicaInversa();
-		cinematica.setPanelReal(panelReal);
-		cinematica.setPanelPrincipal(this);
-		
+
 		panelRobot.setBackground(Color.BLACK);
 		panelRobot.setBounds(555, 11, 281, 280);
 		add(panelRobot);
@@ -167,7 +163,12 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		sldrEscala.setMaximum(500);
 		sldrEscala.setValue(70);
 		add(sldrEscala);
-	
+
+		cinematica = new CinematicaInversa();
+		cinematica.setPanelReal(panelReal);
+		cinematica.setPanelPrincipal(this);
+		cinematica.setPanelRobot(panelRobot);
+
 		//cinematica.moverA(75, 47.5);
 	}
 	

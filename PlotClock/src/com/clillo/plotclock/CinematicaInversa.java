@@ -9,7 +9,8 @@ public class CinematicaInversa {
 	
 	private PanelReal panelReal;
 	private PanelPrincipal panelPrincipal;
-	
+	private PanelRobot panelRobot;
+
 //	private double SERVOFAKTOR=600; // 630
 	
 	private double SERVOLEFTNULL=2020; //1900
@@ -117,6 +118,9 @@ public class CinematicaInversa {
 
 		if (panelReal!=null)
 			panelReal.agregaPuntoTrayectoria(Tx, Ty);
+		
+		if (this.panelRobot!=null)
+			this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
 
 		// calculate triangle between pen, servoLeft and arm joint
 		// cartesian dx/dy
@@ -185,6 +189,10 @@ public class CinematicaInversa {
 	
 	public void setPanelPrincipal(PanelPrincipal panelPrincipal) {
 		this.panelPrincipal = panelPrincipal;
+	}
+	
+	public void setPanelRobot(PanelRobot panelRobot) {
+		this.panelRobot = panelRobot;
 	}
 
 	public static void main(String[] args) {
