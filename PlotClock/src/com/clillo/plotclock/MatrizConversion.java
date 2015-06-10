@@ -42,7 +42,7 @@ public class MatrizConversion {
 	}
 	
 	public int [] getValor(int x, int y){
-		// busca a la derecha:
+		// busca a la derecha:   
 		int ix = x;
 		//while (motor1[ix][]==0)
 		//	ix--;
