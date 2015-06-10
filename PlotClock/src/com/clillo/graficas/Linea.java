@@ -47,11 +47,4 @@ public class Linea
 
   }
 
-  public void paint(Graphics g, Matriz m) {
-
-    g.drawLine((m.multiplicar(p1)).getIX(), (m.multiplicar(p1)).getIY(),
-               (m.multiplicar(p2)).getIX(), (m.multiplicar(p2)).getIY());
-
-  }
-
 }

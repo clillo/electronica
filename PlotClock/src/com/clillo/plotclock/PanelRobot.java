@@ -239,6 +239,8 @@ public class PanelRobot extends JPanel {
 	}
 
 	public void agregaPuntoActual(Punto puntoActual) {
+		//System.out.println((puntoActual.getDx()-T.getDx())+"\t"+(puntoActual.getDy()-T.getDy()));
+
 		trayectoriaDeseada.add(puntoActual);
 	}
 }

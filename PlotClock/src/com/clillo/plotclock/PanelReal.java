@@ -31,12 +31,17 @@ public class PanelReal extends JPanel {
 			g.drawOval(actual.getIx(), actual.getIy(), 4, 4);
 		
 		g.setColor(Color.blue);
-		for (Punto p: trayectoria)
-			g.drawOval(p.getIx(), p.getIy(), 3, 3);
+		synchronized (trayectoria) {
+			for (Punto p: trayectoria)
+				g.drawOval(p.getIx(), p.getIy(), 3, 3);
+	
+		}
 	}
 	
 	public void agregaPuntoTrayectoria(double x, double y){
-		trayectoria.add(obtienePunto(x,  y));
+		synchronized (trayectoria) {
+			trayectoria.add(obtienePunto(x,  y));
+		}
 		this.repaint();
 	}
 	

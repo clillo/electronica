@@ -14,8 +14,7 @@ public class Numeros {
 	//    number(3, 3, 111, 1);
 	    number(5, 25, a1, 0.9);
 	    number(19, 25, a2, 0.9);
-	    number(28, 25, 11, 0.9);
-
+//	    number(28, 25, 11, 0.9);
 
 	    number(34, 25, a3, 0.9);
 	    number(48, 25, a4, 0.9);

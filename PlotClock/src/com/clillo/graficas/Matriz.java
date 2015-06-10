@@ -41,6 +41,7 @@ public class Matriz {
 
 	  public void rotaciony(double alfa){
 	   alfa *= (Math.PI / 180);
+
 	    double ca=Math.cos(alfa);
 	    double sa=Math.sin(alfa);
 

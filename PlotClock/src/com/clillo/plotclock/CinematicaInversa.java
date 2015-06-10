@@ -3,6 +3,7 @@ package com.clillo.plotclock;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.clillo.graficas.Matriz;
 import com.clillo.plotclock.Servo.Id;
 
 public class CinematicaInversa {
@@ -65,6 +66,29 @@ public class CinematicaInversa {
 			drawTo(p.getDx(), p.getDy());
 	}
 	
+	public void dibuja(int motor1[], int motor2[]){
+		
+		for (int i=0; i<motor1.length; i++){
+				servoDerecho.writeMicroseconds(motor2[i]);
+				servoIzquerdo.writeMicroseconds(motor1[i]);
+			
+				try {
+					if (serial!=null)
+						serial.punto(servoDerecho, servoIzquerdo);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				panelPrincipal.repaint();
+				panelReal.repaint();
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+				}
+		}
+	}
+	
 	public void moverA(double x, double y){
 		coordenadaRealX = (x * (DIBUJO_MAX_X - DIBUJO_MIN_X) ) + DIBUJO_MIN_X;
 		coordenadaRealY = (y * (DIBUJO_MAX_Y - DIBUJO_MIN_Y) ) + DIBUJO_MIN_Y;
@@ -114,6 +138,19 @@ public class CinematicaInversa {
 	
 	private void setXY(double Tx, double Ty, double SERVOFAKTOR, PanelRobot panelRobot){
 	//	Ty = 70- Ty; 
+	/*	Matriz mRotacion = new Matriz();
+		mRotacion.rotacionz(2.5);
+		
+		com.clillo.graficas.Punto p = new com.clillo.graficas.Punto();
+		p.setX(Tx);
+		p.setY(Ty);
+		p.setZ(0);
+		
+		com.clillo.graficas.Punto q = mRotacion.multiplicar(p);
+		
+		Tx = q.getX();
+		Ty = q.getY();
+		*/
 		double dx, dy, c, a1, a2, Hx, Hy;
 
 		if (panelReal!=null)
@@ -171,6 +208,8 @@ public class CinematicaInversa {
 			e.printStackTrace();
 		}
 		
+		this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
+
 		panelPrincipal.repaint();
 		panelReal.repaint();
 	}

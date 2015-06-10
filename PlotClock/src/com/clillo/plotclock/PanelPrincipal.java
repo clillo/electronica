@@ -40,6 +40,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JTextField txtD4;
 	private JButton btnLimpia;
 	private JButton btnDibuja;
+	private JButton button;
 	
 	private JSlider sldrEscala;
 	private JScrollBar scrlRobotY;
@@ -169,7 +170,10 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		cinematica.setPanelPrincipal(this);
 		cinematica.setPanelRobot(panelRobot);
 
-		//cinematica.moverA(75, 47.5);
+		button = new JButton("Dibuja 2");
+		button.setBounds(400, 168, 89, 23);
+		button.addActionListener(this);
+		add(button);
 	}
 	
 	public static double getServoFaktor(){
@@ -214,7 +218,47 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 			panelReal.limpia();
 			this.repaint();
 		}
-				
+			
+		if (arg0.getSource().equals(button)){
+			new Thread(){
+				@Override
+				public void run() {
+					super.run();
+					int motor1[] = {1848,
+							1792,
+							1699,
+							1669,
+							1594,
+							1488,
+							1431,
+							1350,
+							1258,
+							1168,
+							1085
+
+
+
+};
+					int motor2[] = {1805,
+							1710,
+							1595,
+							1509,
+							1418,
+							1353,
+							1265,
+							1219,
+							1177,
+							1150,
+							1118
+
+
+
+};
+					cinematica.dibuja(motor1, motor2);
+					panelRobot.repaint();
+				}
+			}.start();
+		}
 	}
 
 	@Override
