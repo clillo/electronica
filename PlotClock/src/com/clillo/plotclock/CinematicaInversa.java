@@ -151,6 +151,8 @@ public class CinematicaInversa {
 		Tx = q.getX();
 		Ty = q.getY();
 		*/
+		
+		/*
 		double dx, dy, c, a1, a2, Hx, Hy;
 
 		if (panelReal!=null)
@@ -193,13 +195,14 @@ public class CinematicaInversa {
 		servoDerecho.writeMicroseconds(anguloDerecho);
 		servoIzquerdo.writeMicroseconds(anguloIzquerdo);
 	
-	/*	try {
-			Thread.sleep(40);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		*/
 		
+		MatrizConversion mc = new MatrizConversion();
+		int salida[] = mc.getValor((int)Tx, (int)Ty);
+		
+		servoDerecho.writeMicroseconds(salida[0]);
+		servoIzquerdo.writeMicroseconds(salida[1]);
+	
 		try {
 			if (serial!=null)
 			//	serial.punto(servoIzquerdo, servoDerecho);
@@ -208,7 +211,7 @@ public class CinematicaInversa {
 			e.printStackTrace();
 		}
 		
-		this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
+	//	this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
 
 		panelPrincipal.repaint();
 		panelReal.repaint();
