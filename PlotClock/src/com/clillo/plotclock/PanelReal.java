@@ -11,6 +11,9 @@ public class PanelReal extends JPanel {
 	private Punto actual;
 	private ArrayList<Punto> trayectoria = new ArrayList<Punto>();
 	
+	private ArrayList<Punto> grilla = new ArrayList<Punto>();
+	private ArrayList<Punto> puntosElegidos = new ArrayList<Punto>();
+
 	private static final long serialVersionUID = 4075738060965200021L;
 
 	public PanelReal() {
@@ -34,10 +37,40 @@ public class PanelReal extends JPanel {
 		synchronized (trayectoria) {
 			for (Punto p: trayectoria)
 				g.drawOval(p.getIx(), p.getIy(), 3, 3);
-	
 		}
+
+		synchronized (grilla) {
+			g.setColor(Color.yellow);
+			for (Punto p: grilla)
+				g.drawOval(p.getIx(), p.getIy(), 3, 3);
+		}
+
+		synchronized (puntosElegidos) {
+			g.setColor(Color.cyan);
+			for (Punto p: puntosElegidos)
+				g.drawOval(p.getIx(), p.getIy(), 3, 3);
+		}
+		
+	}
+
+	public void eliminaPuntoElegidos(){
+		puntosElegidos.clear();
 	}
 	
+	public void agregaPuntoElegidos(double x, double y){
+		synchronized (grilla) {
+			puntosElegidos.add(obtienePunto(x,  y));
+		}
+		this.repaint();
+	}
+	
+	public void agregaPuntoGrilla(double x, double y){
+		synchronized (grilla) {
+			grilla.add(obtienePunto(x,  y));
+		}
+		this.repaint();
+	}
+
 	public void agregaPuntoTrayectoria(double x, double y){
 		synchronized (trayectoria) {
 			trayectoria.add(obtienePunto(x,  y));
@@ -56,10 +89,11 @@ public class PanelReal extends JPanel {
 
 		//	System.out.println(absolutaX+","+absolutaY);
 
-		return new Punto((int) (absolutaX * this.getWidth()), (int) (absolutaY * this.getHeight()));
+		return new Punto((int) (absolutaX * this.getWidth()), (int) (this.getHeight() - absolutaY * this.getHeight()));
 	}
 	
 	public void limpia(){
 		trayectoria.clear();
+		grilla.clear();
 	}
 }

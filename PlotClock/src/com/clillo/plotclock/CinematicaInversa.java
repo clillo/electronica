@@ -45,6 +45,12 @@ public class CinematicaInversa {
 	
 	private Serial serial;
 	
+	private MatrizConversion matrizConversion = new MatrizConversion();
+	
+	public MatrizConversion getMatrizConversion() {
+		return matrizConversion;
+	}
+
 	public CinematicaInversa() {
 		try {
 			serial = new Serial();
@@ -197,8 +203,12 @@ public class CinematicaInversa {
 	
 		*/
 		
-		MatrizConversion mc = new MatrizConversion();
-		int salida[] = mc.getValor((int)Tx, (int)Ty);
+		int salida[] = matrizConversion.getValor((int)Tx, (int)Ty);
+		
+		panelReal.eliminaPuntoElegidos();
+		ArrayList<Par> listaElegidos = matrizConversion.getListaPuntosActuales();
+		for (Par p: listaElegidos)
+			panelReal.agregaPuntoElegidos(p.getX(), p.getY());
 		
 		servoDerecho.writeMicroseconds(salida[0]);
 		servoIzquerdo.writeMicroseconds(salida[1]);
@@ -236,6 +246,8 @@ public class CinematicaInversa {
 	public void setPanelRobot(PanelRobot panelRobot) {
 		this.panelRobot = panelRobot;
 	}
+	
+	
 
 	public static void main(String[] args) {
 		CinematicaInversa ci = new CinematicaInversa(true);

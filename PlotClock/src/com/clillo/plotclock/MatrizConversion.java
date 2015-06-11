@@ -9,6 +9,8 @@ public class MatrizConversion {
 	
 	private ArrayList<Par> listaPares;
 	
+	private ArrayList<Par> listaPuntosActuales;
+
 	public MatrizConversion(){
 		motor1[5][30] = 1935;	motor2[5][30] = 1742;
 		motor1[5][37] = 1848;	motor2[5][37] = 1805;
@@ -106,9 +108,35 @@ public class MatrizConversion {
 
 		System.out.println(m1+","+m2);
 		
+		listaPuntosActuales = new ArrayList<Par>();
+		listaPuntosActuales.add(puntosCercanos[0]);
+		listaPuntosActuales.add(puntosCercanos[1]);
+		listaPuntosActuales.add(puntosCercanos[2]);
+		listaPuntosActuales.add(puntosCercanos[3]);
+		
 		return new int[] {(int)m1, (int)m2};
 	}
 	
+	private Par[] cercanos(Par buscado){
+	
+		Par pMinimo1 = null;
+		Par pMinimo2 = null;
+		Par pMinimo3 = null;
+		Par pMinimo4 = null;
+		
+		for (Par p: listaPares)
+			if (p.getX()<=buscado.getX() && buscado.getY()<=p.getY()){
+				pMinimo1 = p;
+			}
+			
+		return new Par[]{pMinimo1, pMinimo2, pMinimo3, pMinimo4};
+	}
+
+		
+	public ArrayList<Par> getListaPuntosActuales() {
+		return listaPuntosActuales;
+	}
+
 	private int getV1(Par p){
 		return motor1[p.getX()][p.getY()];
 	}
@@ -117,7 +145,7 @@ public class MatrizConversion {
 		return motor2[p.getX()][p.getY()];
 	}
 
-	private Par[] cercanos(Par buscado){
+	private Par[] cercanos2(Par buscado){
 		double minimo = 1000000000;
 
 		Par pMinimo1 = null;
@@ -162,7 +190,11 @@ public class MatrizConversion {
 			System.out.println();
 		}
 	}
-	
+		
+	public ArrayList<Par> getListaPares() {
+		return listaPares;
+	}
+
 	public static void main(String[] args) {
 		MatrizConversion mc = new MatrizConversion();
 		mc.imprime();

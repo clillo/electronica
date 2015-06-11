@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -41,6 +42,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JButton btnLimpia;
 	private JButton btnDibuja;
 	private JButton button;
+	private JButton button_1;
 	
 	private JSlider sldrEscala;
 	private JScrollBar scrlRobotY;
@@ -174,6 +176,11 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		button.setBounds(400, 168, 89, 23);
 		button.addActionListener(this);
 		add(button);
+		
+		button_1 = new JButton("Dibuja 2");
+		button_1.setBounds(400, 206, 89, 23);
+		button_1.addActionListener(this);
+		add(button_1);
 	}
 	
 	public static double getServoFaktor(){
@@ -259,6 +266,23 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 				}
 			}.start();
 		}
+		
+		if (arg0.getSource().equals(button_1)){
+			new Thread(){
+				@Override
+				public void run() {
+					super.run();
+					MatrizConversion mc = new MatrizConversion();
+					ArrayList<Par> lista = mc.getListaPares();
+					
+					for (Par p: lista)
+						panelReal.agregaPuntoGrilla(p.getX(), p.getY());
+					
+					panelRobot.repaint();
+				}
+			}.start();
+		}
+		
 	}
 
 	@Override
@@ -270,6 +294,5 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent arg0) {
 		panelRobot.setOrigen(scrlRobotX.getValue(), scrlRobotY.getValue());
-		
 	}
 }
