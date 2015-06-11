@@ -1,9 +1,13 @@
 package com.clillo.plotclock;
 
+import java.util.ArrayList;
+
 public class MatrizConversion {
 
 	private int motor1[][] = new int[100][100];
 	private int motor2[][] = new int[100][100];
+	
+	private ArrayList<Par> listaPares;
 	
 	public MatrizConversion(){
 		motor1[5][30] = 1935;	motor2[5][30] = 1742;
@@ -39,15 +43,116 @@ public class MatrizConversion {
 		motor1[65][30] = 1095;	motor2[65][30] = 1009;
 		motor1[65][37] = 1085;	motor2[65][37] = 1118;
 		motor1[65][45] = 977;	motor2[65][45] = 1231;
+		
+		listaPares = new ArrayList<Par>();
+		listaPares.add(new Par(5,30));
+		listaPares.add(new Par(5,37));
+		listaPares.add(new Par(5,45));
+		listaPares.add(new Par(14,30));
+		listaPares.add(new Par(14,37));
+		listaPares.add(new Par(14,45));
+		listaPares.add(new Par(23,30));
+		listaPares.add(new Par(23,37));
+		listaPares.add(new Par(23,45));
+		listaPares.add(new Par(29,30));
+		listaPares.add(new Par(29,37));
+		listaPares.add(new Par(29,45));
+		listaPares.add(new Par(35,30));
+		listaPares.add(new Par(35,37));
+		listaPares.add(new Par(35,45));
+		listaPares.add(new Par(41,30));
+		listaPares.add(new Par(41,37));
+		listaPares.add(new Par(41,45));
+		listaPares.add(new Par(47,30));
+		listaPares.add(new Par(47,37));
+		listaPares.add(new Par(47,45));
+		listaPares.add(new Par(52,30));
+		listaPares.add(new Par(52,37));
+		listaPares.add(new Par(52,45));
+		listaPares.add(new Par(56,30));
+		listaPares.add(new Par(56,37));
+		listaPares.add(new Par(56,45));
+		listaPares.add(new Par(61,30));
+		listaPares.add(new Par(61,37));
+		listaPares.add(new Par(61,45));
+		listaPares.add(new Par(65,30));
+		listaPares.add(new Par(65,37));
+		listaPares.add(new Par(65,45));
 	}
 	
 	public int [] getValor(int x, int y){
-		// busca a la derecha:   
-		int ix = x;
-		//while (motor1[ix][]==0)
-		//	ix--;
+		Par buscado = new Par(x, y);
+		Par[] puntosCercanos = cercanos(buscado);
+
 		
-		return new int[] {motor1[x][y], motor2[x][y]};
+		double d1 = buscado.distancia(puntosCercanos[0]);
+		double d2 = buscado.distancia(puntosCercanos[1]);		
+		double d3 = buscado.distancia(puntosCercanos[2]);
+		double d4 = buscado.distancia(puntosCercanos[3]);
+		
+		double suma = d1 + d2 + d3 + d4;
+		
+		System.out.println("\t"+suma+"\t"+d1+","+d2+","+d3+","+d4);
+		double peso1 = 1.0 - d1 / suma;
+		double peso2 = 1.0 - d2 / suma;
+		double peso3 = 1.0 - d3 / suma;
+		double peso4 = 1.0 - d4 / suma;
+
+		double psuma = peso1+peso2+peso3+peso4;
+		System.out.println(peso1+","+peso2+","+peso3+","+peso4+"\t"+psuma);
+		
+		double m1 = (getV1(puntosCercanos[0])*peso1+getV1(puntosCercanos[1])*peso2+getV1(puntosCercanos[2])*peso3+getV1(puntosCercanos[3])*peso4)/psuma;
+		double m2 = (getV2(puntosCercanos[0])*peso1+getV2(puntosCercanos[1])*peso2+getV2(puntosCercanos[2])*peso3+getV2(puntosCercanos[3])*peso4)/psuma;
+
+		System.out.println(m1+","+m2);
+		
+		return new int[] {(int)m1, (int)m2};
+	}
+	
+	private int getV1(Par p){
+		return motor1[p.getX()][p.getY()];
+	}
+
+	private int getV2(Par p){
+		return motor2[p.getX()][p.getY()];
+	}
+
+	private Par[] cercanos(Par buscado){
+		double minimo = 1000000000;
+
+		Par pMinimo1 = null;
+		Par pMinimo2 = null;
+		Par pMinimo3 = null;
+		Par pMinimo4 = null;
+		
+		for (Par p: listaPares)
+			if (p.distancia(buscado)<minimo){
+				minimo = p.distancia(buscado);
+				pMinimo1 = p;
+			}
+	
+		minimo = 1000000000;
+		for (Par p: listaPares)
+			if (p!=pMinimo1 && p.distancia(buscado)<minimo){
+				minimo = p.distancia(buscado);
+				pMinimo2 = p;
+			}
+		
+		minimo = 1000000000;
+		for (Par p: listaPares)
+			if (p!=pMinimo1 && p!=pMinimo2 && p.distancia(buscado)<minimo){
+				minimo = p.distancia(buscado);
+				pMinimo3 = p;
+			}
+
+		minimo = 1000000000;
+		for (Par p: listaPares)
+			if (p!=pMinimo1 && p!=pMinimo2 && p!=pMinimo3 && p.distancia(buscado)<minimo){
+				minimo = p.distancia(buscado);
+				pMinimo4 = p;
+			}
+		
+		return new Par[]{pMinimo1, pMinimo2, pMinimo3, pMinimo4};
 	}
 	
 	public void imprime(){
