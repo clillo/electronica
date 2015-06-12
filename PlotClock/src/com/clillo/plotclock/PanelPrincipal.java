@@ -276,7 +276,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 					ArrayList<Par> lista = mc.getListaPares();
 					
 					for (Par p: lista)
-						panelReal.agregaPuntoGrilla(p.getX(), p.getY());
+						panelReal.agregaPuntoGrilla(p);
 					
 					panelRobot.repaint();
 				}

@@ -7,9 +7,9 @@ public class MatrizConversion {
 	private int motor1[][] = new int[100][100];
 	private int motor2[][] = new int[100][100];
 	
-	private ArrayList<Par> listaPares;
-	
+	private ArrayList<Par> listaPares;	
 	private ArrayList<Par> listaPuntosActuales;
+	private ArrayList<Celda> listaCeldas;
 
 	public MatrizConversion(){
 		motor1[5][30] = 1935;	motor2[5][30] = 1742;
@@ -47,64 +47,72 @@ public class MatrizConversion {
 		motor1[65][45] = 977;	motor2[65][45] = 1231;
 		
 		listaPares = new ArrayList<Par>();
-		listaPares.add(new Par(5,30));
-		listaPares.add(new Par(5,37));
-		listaPares.add(new Par(5,45));
-		listaPares.add(new Par(14,30));
-		listaPares.add(new Par(14,37));
-		listaPares.add(new Par(14,45));
-		listaPares.add(new Par(23,30));
-		listaPares.add(new Par(23,37));
-		listaPares.add(new Par(23,45));
-		listaPares.add(new Par(29,30));
-		listaPares.add(new Par(29,37));
-		listaPares.add(new Par(29,45));
-		listaPares.add(new Par(35,30));
-		listaPares.add(new Par(35,37));
-		listaPares.add(new Par(35,45));
-		listaPares.add(new Par(41,30));
-		listaPares.add(new Par(41,37));
-		listaPares.add(new Par(41,45));
-		listaPares.add(new Par(47,30));
-		listaPares.add(new Par(47,37));
-		listaPares.add(new Par(47,45));
-		listaPares.add(new Par(52,30));
-		listaPares.add(new Par(52,37));
-		listaPares.add(new Par(52,45));
-		listaPares.add(new Par(56,30));
-		listaPares.add(new Par(56,37));
-		listaPares.add(new Par(56,45));
-		listaPares.add(new Par(61,30));
-		listaPares.add(new Par(61,37));
-		listaPares.add(new Par(61,45));
-		listaPares.add(new Par(65,30));
-		listaPares.add(new Par(65,37));
-		listaPares.add(new Par(65,45));
+		listaPares.add(new Par(5,30, "00"));
+		listaPares.add(new Par(5,37, "01"));
+		listaPares.add(new Par(5,45, "02"));
+		listaPares.add(new Par(14,30, "03"));
+		listaPares.add(new Par(14,37, "04"));
+		listaPares.add(new Par(14,45, "05"));
+		listaPares.add(new Par(23,30, "06"));
+		listaPares.add(new Par(23,37, "07"));
+		listaPares.add(new Par(23,45, "08"));
+		listaPares.add(new Par(29,30, "09"));
+		listaPares.add(new Par(29,37, "10"));
+		listaPares.add(new Par(29,45, "11"));
+		listaPares.add(new Par(35,30, "12"));
+		listaPares.add(new Par(35,37, "13"));
+		listaPares.add(new Par(35,45, "14"));
+		listaPares.add(new Par(41,30, "15"));
+		listaPares.add(new Par(41,37, "16"));
+		listaPares.add(new Par(41,45, "17"));
+		listaPares.add(new Par(47,30, "18"));
+		listaPares.add(new Par(47,37, "19"));
+		listaPares.add(new Par(47,45, "20"));
+		listaPares.add(new Par(52,30, "21"));
+		listaPares.add(new Par(52,37, "22"));
+		listaPares.add(new Par(52,45, "23"));
+		listaPares.add(new Par(56,30, "24"));
+		listaPares.add(new Par(56,37, "25"));
+		listaPares.add(new Par(56,45, "26"));
+		listaPares.add(new Par(61,30, "27"));
+		listaPares.add(new Par(61,37, "28"));
+		listaPares.add(new Par(61,45, "29"));
+		listaPares.add(new Par(65,30, "30"));
+		listaPares.add(new Par(65,37, "31"));
+		listaPares.add(new Par(65,45, "32"));
+		
+		listaCeldas = new ArrayList<Celda>();
+		for (int i=0; i<30; i+=3){
+			listaCeldas.add(new Celda(listaPares.get(0+i), listaPares.get(1+i), listaPares.get(4+i), listaPares.get(3+i)));
+			listaCeldas.add(new Celda(listaPares.get(1+i), listaPares.get(2+i), listaPares.get(5+i), listaPares.get(4+i)));
+		}
 	}
 	
 	public int [] getValor(int x, int y){
-		Par buscado = new Par(x, y);
+		Par buscado = new Par(x, y, "FK");
 		Par[] puntosCercanos = cercanos(buscado);
-
+	
+		if (puntosCercanos[0]==null || puntosCercanos[1]==null || puntosCercanos[2]==null || puntosCercanos[3]==null )
+			return new int[] {0, 0};
 		
-		double d1 = buscado.distancia(puntosCercanos[0]);
-		double d2 = buscado.distancia(puntosCercanos[1]);		
-		double d3 = buscado.distancia(puntosCercanos[2]);
-		double d4 = buscado.distancia(puntosCercanos[3]);
+		double d1 = 1 / buscado.distancia(puntosCercanos[0]);
+		double d2 = 1 / buscado.distancia(puntosCercanos[1]);		
+		double d3 = 1 / buscado.distancia(puntosCercanos[2]);
+		double d4 = 1 / buscado.distancia(puntosCercanos[3]);
 		
 		double suma = d1 + d2 + d3 + d4;
 		
-		System.out.println("\t"+suma+"\t"+d1+","+d2+","+d3+","+d4);
-		double peso1 = 1.0 - d1 / suma;
-		double peso2 = 1.0 - d2 / suma;
-		double peso3 = 1.0 - d3 / suma;
-		double peso4 = 1.0 - d4 / suma;
+		System.out.println("\tSumas y distancia: "+suma+"\t"+d1+","+d2+","+d3+","+d4);
+		double peso1 = d1 / suma;
+		double peso2 = d2 / suma;
+		double peso3 = d3 / suma;
+		double peso4 = d4 / suma;
 
-		double psuma = peso1+peso2+peso3+peso4;
-		System.out.println(peso1+","+peso2+","+peso3+","+peso4+"\t"+psuma);
+		double psuma = (peso1+peso2+peso3+peso4);
+		System.out.println("Pesos: " +peso1+","+peso2+","+peso3+","+peso4+"\t"+psuma);
 		
-		double m1 = (getV1(puntosCercanos[0])*peso1+getV1(puntosCercanos[1])*peso2+getV1(puntosCercanos[2])*peso3+getV1(puntosCercanos[3])*peso4)/psuma;
-		double m2 = (getV2(puntosCercanos[0])*peso1+getV2(puntosCercanos[1])*peso2+getV2(puntosCercanos[2])*peso3+getV2(puntosCercanos[3])*peso4)/psuma;
+		double m1 = (getV1(puntosCercanos[0])*peso1 + getV1(puntosCercanos[1])*peso2 + getV1(puntosCercanos[2])*peso3 + getV1(puntosCercanos[3])*peso4)/psuma;
+		double m2 = (getV2(puntosCercanos[0])*peso1 + getV2(puntosCercanos[1])*peso2 + getV2(puntosCercanos[2])*peso3 + getV2(puntosCercanos[3])*peso4)/psuma;
 
 		System.out.println(m1+","+m2);
 		
@@ -113,6 +121,7 @@ public class MatrizConversion {
 		listaPuntosActuales.add(puntosCercanos[1]);
 		listaPuntosActuales.add(puntosCercanos[2]);
 		listaPuntosActuales.add(puntosCercanos[3]);
+		
 		
 		return new int[] {(int)m1, (int)m2};
 	}
@@ -124,11 +133,18 @@ public class MatrizConversion {
 		Par pMinimo3 = null;
 		Par pMinimo4 = null;
 		
-		for (Par p: listaPares)
-			if (p.getX()<=buscado.getX() && buscado.getY()<=p.getY()){
-				pMinimo1 = p;
+		for (Celda c: listaCeldas){
+			//System.out.println(c.perteneceA(buscado));
+			if (c.perteneceA(buscado)){
+				pMinimo1 = c.getP1();
+				pMinimo2 = c.getP2();
+				pMinimo3 = c.getP3();
+				pMinimo4 = c.getP4();
+				break;
 			}
-			
+		}
+				
+				
 		return new Par[]{pMinimo1, pMinimo2, pMinimo3, pMinimo4};
 	}
 

@@ -39,5 +39,13 @@ public class Celda {
 		this.p4 = p4;
 	}
 	
-	
+	public boolean perteneceA(Par p){
+		//System.out.println( p1+","+p2+","+p3+","+p4+","+p);
+		boolean x =  p1.getX()<=p.getX() && p2.getX()<=p.getX() && p.getX()<=p3.getX() && p.getX()<=p4.getX();
+		if (!x)
+			return false;
+		
+		//System.out.println("Paso los X");
+		return p1.getY()<=p.getY() && p4.getY()<=p.getY() && p.getY()<=p2.getY() && p.getY()<=p3.getY();
+	}
 }

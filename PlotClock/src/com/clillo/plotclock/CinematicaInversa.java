@@ -119,7 +119,7 @@ public class CinematicaInversa {
 		dy = pY - lastY;
 		// path lenght in mm, times 4 equals 4 steps per mm
 		c = Math.floor(4 * Math.sqrt(dx * dx + dy * dy));
-		c = Math.floor(2 * Math.sqrt(dx * dx + dy * dy));
+		c = Math.floor(4 * Math.sqrt(dx * dx + dy * dy));
 
 		if (c < 1)
 			c = 1;
@@ -207,8 +207,10 @@ public class CinematicaInversa {
 		
 		panelReal.eliminaPuntoElegidos();
 		ArrayList<Par> listaElegidos = matrizConversion.getListaPuntosActuales();
-		for (Par p: listaElegidos)
-			panelReal.agregaPuntoElegidos(p.getX(), p.getY());
+		
+		if (listaElegidos!=null)
+			for (Par p: listaElegidos)
+				panelReal.agregaPuntoElegidos(p);
 		
 		servoDerecho.writeMicroseconds(salida[0]);
 		servoIzquerdo.writeMicroseconds(salida[1]);
