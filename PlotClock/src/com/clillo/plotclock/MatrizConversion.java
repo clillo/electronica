@@ -87,7 +87,7 @@ public class MatrizConversion {
 			listaCeldas.add(new Celda(listaPares.get(1+i), listaPares.get(2+i), listaPares.get(5+i), listaPares.get(4+i)));
 		}
 	}
-	
+	/*
 	public int [] getValor(int x, int y){
 		Par buscado = new Par(x, y, "FK");
 		Par[] puntosCercanos = cercanos(buscado);
@@ -125,7 +125,39 @@ public class MatrizConversion {
 		
 		return new int[] {(int)m1, (int)m2};
 	}
+	*/
+	public int [] getValor(int x, int y){
+		Par buscado = new Par(x, y, "FK");
+		Par[] puntosCercanos = cercanos(buscado);
 	
+		if (puntosCercanos[0]==null || puntosCercanos[1]==null || puntosCercanos[2]==null || puntosCercanos[3]==null )
+			return new int[] {0, 0};
+		
+		
+		/**
+		 * p0      p3
+		 * 
+		 * p1      p2
+		 */
+		
+		int dx = (puntosCercanos[2].getX() - puntosCercanos[0].getX());
+		int dy = (puntosCercanos[1].getY() - puntosCercanos[0].getY());
+		
+		double p1x = Math.abs(puntosCercanos[2].getX() - x) / (dx*1.0);
+		double p2x = Math.abs(puntosCercanos[0].getX() - x) / (dx*1.0);
+
+		double p1y = Math.abs(puntosCercanos[1].getY() - y) / (dy*1.0);
+		double p2y = Math.abs(puntosCercanos[0].getY() - y) / (dy*1.0);
+
+		double m1 = getV1(puntosCercanos[0]) * p1x + getV1(puntosCercanos[2]) * p2x;
+		double m2 = getV2(puntosCercanos[0]) * p1y + getV2(puntosCercanos[1]) * p2y;
+
+		System.out.println(puntosCercanos[0]+"\t"+puntosCercanos[1]+"\t"+puntosCercanos[2]+"\t"+puntosCercanos[3]+"\t"+dx+"\t"+dy+"\t"+p1x+"\t"+p2x+"\t"+ m1+"\t"+m2);
+
+		
+		return new int[] {(int)m1, (int)m2};
+	}
+
 	private Par[] cercanos(Par buscado){
 	
 		Par pMinimo1 = null;
