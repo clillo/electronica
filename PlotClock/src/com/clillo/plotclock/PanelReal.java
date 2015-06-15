@@ -44,7 +44,7 @@ public class PanelReal extends JPanel {
 			for (Par par: grilla){
 				Punto p = obtienePunto(par.getX(),  par.getY());
 				g.drawOval(p.getIx(), p.getIy(), 3, 3);
-				g.drawChars(par.getId().toCharArray(), 0, 2, p.getIx(), p.getIy());
+			//	g.drawChars(par.getId().toCharArray(), 0, 2, p.getIx(), p.getIy());
 			}
 				
 		}

@@ -102,8 +102,13 @@ public class CinematicaInversa {
 	}
 	
 	public static void real2Pantalla(Punto p){
-		p.setDx((p.getDx() - CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X));
-		p.setDy((p.getDy() - CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y));
+		p.setDx((p.getDx() - DIBUJO_MIN_X) / (DIBUJO_MAX_X - DIBUJO_MIN_X));
+		p.setDy((p.getDy() - DIBUJO_MIN_Y) / (DIBUJO_MAX_Y - DIBUJO_MIN_Y));
+	}
+	
+	public static void pantalla2Real(Punto p){
+		p.setIx((int) ( (p.getDx() * (DIBUJO_MAX_X - DIBUJO_MIN_X) ) + DIBUJO_MIN_X));
+		p.setIy((int) ((p.getDy() * (DIBUJO_MAX_Y - DIBUJO_MIN_Y) ) + DIBUJO_MIN_Y));
 	}
 	
 	private double returnAngle(double a, double b, double c) { 		  // cosine rule for angle between c and a
@@ -205,15 +210,24 @@ public class CinematicaInversa {
 		
 		int salida[] = matrizConversion.getValor((int)Tx, (int)Ty);
 		
-		panelReal.eliminaPuntoElegidos();
-		ArrayList<Par> listaElegidos = matrizConversion.getListaPuntosActuales();
+//		panelReal.eliminaPuntoElegidos();
+//		ArrayList<Par> listaElegidos = matrizConversion.getListaPuntosActuales();
 		
-		if (listaElegidos!=null)
-			for (Par p: listaElegidos)
-				panelReal.agregaPuntoElegidos(p);
+//		if (listaElegidos!=null)
+//			for (Par p: listaElegidos)
+//				panelReal.agregaPuntoElegidos(p);
 		
-		servoDerecho.writeMicroseconds(salida[0]);
-		servoIzquerdo.writeMicroseconds(salida[1]);
+		moverHasta(salida[0], salida[1]);
+		
+	//	this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
+
+		panelPrincipal.repaint();
+		panelReal.repaint();
+	}
+	
+	public void moverHasta(int angulo1, int angulo2){
+		servoDerecho.writeMicroseconds(angulo1);
+		servoIzquerdo.writeMicroseconds(angulo2);
 	
 		try {
 			if (serial!=null)
@@ -222,11 +236,6 @@ public class CinematicaInversa {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-	//	this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
-
-		panelPrincipal.repaint();
-		panelReal.repaint();
 	}
 		
 	public double getCoordenadaRealX() {

@@ -49,6 +49,6 @@ public class Servo {
 	}
 
 	public String getEstado(){
-		return (int)angulo+", "+(int)getAnguloNormalizadoGrados()+ "°";
+		return (int)getAnguloNormalizadoGrados()+ "°";
 	}
 }

@@ -24,7 +24,7 @@ public class PlotClock extends JFrame implements ActionListener{
 	}
 	
 	private void initialize() {
-		setSize(900, 350);
+		setSize(1200, 750);
 		setContentPane(new PanelPrincipal());
 	}
 	
