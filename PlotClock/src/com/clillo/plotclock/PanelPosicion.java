@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,8 @@ public class PanelPosicion extends JPanel implements MouseMotionListener, MouseL
 	private static final long serialVersionUID = 4075738060965200021L;
 	private ListenerPosicion listener;
 	private CinematicaInversa cinematica;
+
+	private ArrayList<Punto> trayectoria = new ArrayList<Punto>();
 
 	public PanelPosicion() {
 		this.setBackground(Color.BLACK);
@@ -24,6 +27,7 @@ public class PanelPosicion extends JPanel implements MouseMotionListener, MouseL
 
 	public void setCinematica(CinematicaInversa cinematica) {
 		this.cinematica = cinematica;
+		cinematica.setPanelPosicion(this);
 	}
 
 	public void setListener(ListenerPosicion listener) {
@@ -36,6 +40,10 @@ public class PanelPosicion extends JPanel implements MouseMotionListener, MouseL
 		listener.mover(rx, ry, fake);
 	}
 
+	public void limpia(){
+		trayectoria.clear();
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -68,14 +76,36 @@ public class PanelPosicion extends JPanel implements MouseMotionListener, MouseL
 				Par q = obtienePar(p);
 				g.fillOval(q.getX(), q.getY(), 6, 6);
 			}
+		
+		g.setColor(Color.blue);
+		synchronized (trayectoria) {
+			for (Punto p: trayectoria)
+				g.drawOval(p.getIx(), p.getIy(), 3, 3);
+		}
+	}
+	
+
+	public void agregaPuntoTrayectoria(double x, double y){
+		synchronized (trayectoria) {
+			trayectoria.add(obtienePunto(x,  y));
+		}
+		this.repaint();
 	}
 	
 	private Par obtienePar(Par p){
+		if (p==null)
+			return null;
 		double absolutaX = ( (p.getX()-CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X) ) ;
 		double absolutaY = ( (p.getY()-CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y) );
 		return new Par((int) (absolutaX * this.getWidth()), (int) (absolutaY * this.getHeight()), null);
 	}
 
+	private Punto obtienePunto(double x, double y){
+		double absolutaX = ( (x-CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X) ) ;
+		double absolutaY = ( (y-CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y) );
+		return new Punto((int) (absolutaX * this.getWidth()), (int) (absolutaY * this.getHeight()));
+	}
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		

@@ -11,6 +11,7 @@ public class CinematicaInversa {
 	private PanelReal panelReal;
 	private PanelPrincipal panelPrincipal;
 	private PanelRobot panelRobot;
+	private PanelPosicion panelPosicion;
 
 //	private double SERVOFAKTOR=600; // 630
 	
@@ -140,7 +141,6 @@ public class CinematicaInversa {
 
 		lastX = pX;
 		lastY = pY;
-		panelReal.dibujaPosicionActual(lastX, lastY);
 	}
 	
 	private void setXY(double Tx, double Ty){
@@ -208,6 +208,9 @@ public class CinematicaInversa {
 	
 		*/
 		
+		if (panelPosicion!=null)
+			panelPosicion.agregaPuntoTrayectoria(Tx, Ty);
+
 		int salida[] = matrizConversion.getValor((int)Tx, (int)Ty);
 		
 //		panelReal.eliminaPuntoElegidos();
@@ -222,7 +225,6 @@ public class CinematicaInversa {
 	//	this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
 
 		panelPrincipal.repaint();
-		panelReal.repaint();
 	}
 	
 	public void moverHasta(int angulo1, int angulo2){
@@ -258,7 +260,9 @@ public class CinematicaInversa {
 		this.panelRobot = panelRobot;
 	}
 	
-	
+	public void setPanelPosicion(PanelPosicion panelPosicion) {
+		this.panelPosicion = panelPosicion;
+	}
 
 	public static void main(String[] args) {
 		CinematicaInversa ci = new CinematicaInversa(true);

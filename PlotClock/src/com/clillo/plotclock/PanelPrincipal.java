@@ -24,7 +24,6 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private static final long serialVersionUID = -5869553409971473557L;
 	
 	private PanelPosicion panelPosicion = new PanelPosicion();
-	private PanelReal panelReal = new PanelReal();
 	private PanelRobot panelRobot = new PanelRobot();
 
 	private CinematicaInversa cinematica;
@@ -52,10 +51,6 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	
 	public PanelPrincipal() {
 		setLayout(null);
-		
-		panelReal.setBackground(Color.BLACK);
-		panelReal.setBounds(725, 444, 166, 153);
-		add(panelReal);
 		
 		panelPosicion.setListener(this);
 		panelPosicion.setBounds(10, 11, 705, 660);
@@ -150,7 +145,6 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(sldrEscala);
 
 		cinematica = new CinematicaInversa();
-		cinematica.setPanelReal(panelReal);
 		cinematica.setPanelPrincipal(this);
 		cinematica.setPanelRobot(panelRobot);
 		
@@ -242,7 +236,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 			
 		if (arg0.getSource().equals(btnLimpia)){
 			panelRobot.limpia();
-			panelReal.limpia();
+			panelPosicion.limpia();
 			this.repaint();
 		}		
 	}
