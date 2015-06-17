@@ -32,7 +32,6 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JTextField txtAnguloDerecho;
 	private JTextField txtCoordenadaRealX;
 	private JTextField txtCoordenadaRealY;
-	private static JTextField txtServoFaktor;
 	private JTextField txtD1;
 	private JTextField txtD2;
 	private JTextField txtD3;
@@ -58,14 +57,15 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		
 		scrlRobotY = new JScrollBar();
 		scrlRobotY.addAdjustmentListener(this);
-		scrlRobotY.setBounds(1009, 137, 17, 280);
+	//	scrlRobotY.setValue(100);
+		scrlRobotY.setBounds(1132, 252, 17, 402);
 		add(scrlRobotY);
 		
 		scrlRobotX = new JScrollBar();
 		scrlRobotX.setOrientation(JScrollBar.HORIZONTAL);
 		scrlRobotX.addAdjustmentListener(this);
-
-		scrlRobotX.setBounds(725, 417, 281, 17);
+	//	scrlRobotX.setValue(100);
+		scrlRobotX.setBounds(725, 654, 408, 17);
 		add(scrlRobotX);
 		
 		txtPosRealX = new JTextField();
@@ -95,53 +95,50 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(txtCoordenadaRealY);
 
 		panelRobot.setBackground(Color.BLACK);
-		panelRobot.setBounds(725, 137, 281, 280);
+		panelRobot.setBounds(725, 252, 408, 402);
 		add(panelRobot);
 		
-		txtServoFaktor = new JTextField("633");
-		txtServoFaktor.setBounds(724, 632, 86, 20);
-		add(txtServoFaktor);
-		
 		btnDibuja = new JButton("Dibuja Numeros");
-		btnDibuja.setBounds(925, 548, 113, 23);
+		btnDibuja.setBounds(722, 171, 113, 23);
 		btnDibuja.addActionListener(this);
 		add(btnDibuja);
 		
 		txtD1 = new JTextField();
-		txtD1.setText("1");
-		txtD1.setBounds(873, 632, 28, 20);
+		txtD1.setText("5");
+		txtD1.setBounds(858, 174, 28, 20);
 		add(txtD1);
 		txtD1.setColumns(10);
 		
 		txtD2 = new JTextField();
-		txtD2.setText("2");
+		txtD2.setText("6");
 		txtD2.setColumns(10);
-		txtD2.setBounds(912, 632, 28, 20);
+		txtD2.setBounds(897, 174, 28, 20);
 		add(txtD2);
 		
 		txtD3 = new JTextField();
-		txtD3.setText("3");
+		txtD3.setText("7");
 		txtD3.setColumns(10);
-		txtD3.setBounds(950, 632, 28, 20);
+		txtD3.setBounds(935, 174, 28, 20);
 		add(txtD3);
 		
 		txtD4 = new JTextField();
-		txtD4.setText("4");
+		txtD4.setText("9");
 		txtD4.setColumns(10);
-		txtD4.setBounds(986, 632, 28, 20);
+		txtD4.setBounds(971, 174, 28, 20);
 		add(txtD4);
 		
 		btnLimpia = new JButton("Limpia");
-		btnLimpia.setBounds(922, 514, 116, 23);
+		btnLimpia.setBounds(1020, 171, 74, 23);
 		btnLimpia.addActionListener(this);
 		add(btnLimpia);
 		
 		sldrEscala = new JSlider();
-		sldrEscala.setBounds(962, 452, 113, 23);
+		sldrEscala.setBounds(725, 225, 408, 23);
 		sldrEscala.addChangeListener(this);
 		sldrEscala.setMinimum(10);
 		sldrEscala.setMaximum(500);
-		sldrEscala.setValue(70);
+		//sldrEscala.setValue(70);
+		sldrEscala.setValue(200);
 		add(sldrEscala);
 
 		cinematica = new CinematicaInversa();
@@ -173,10 +170,6 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(spnPosY);
 		
 		panelPosicion.setCinematica(cinematica);
-	}
-	
-	public static double getServoFaktor(){
-		return Double.parseDouble(txtServoFaktor.getText());
 	}
 	
 	private String redondea(double d){
@@ -255,6 +248,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent arg0) {
+	//	System.out.println(scrlRobotX.getValue()+","+ scrlRobotY.getValue());
 		panelRobot.setOrigen(scrlRobotX.getValue(), scrlRobotY.getValue());
 	}
 }

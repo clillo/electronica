@@ -28,7 +28,7 @@ public class PanelRobot extends JPanel {
 	
 	public PanelRobot() {
 		this.setBackground(Color.BLACK);
-		setOrigen(0, 0);
+		setOrigen(140, -200);
 	}
 	
 	public void limpia(){
@@ -57,17 +57,20 @@ public class PanelRobot extends JPanel {
 		real2Pantalla(O1);
 		real2Pantalla(O2);
 	
-
 		g.fillOval(O1.getIx()-5, O1.getIy()-5, 10, 10);
 		g.fillOval(O2.getIx()-5, O2.getIy()-5, 10, 10);
+		g.drawBytes("O1".getBytes(), 0, 2, O1.getIx()-5, O1.getIy()-5);
+		g.drawBytes("O2".getBytes(), 0, 2, O2.getIx()-5, O2.getIy()-5);
 		
 		calculaPosicionBrazo();
 	
 		real2Pantalla(B1);
+		g.drawBytes("B1".getBytes(), 0, 2, B1.getIx()-5, B1.getIy()-5);
 		g.fillOval(B1.getIx()-4, B1.getIy()-4, 8, 8);
 		g.drawLine(B1.getIx(), B1.getIy(), O1.getIx(), O1.getIy());
 
 		real2Pantalla(B2);
+		g.drawBytes("B2".getBytes(), 0, 2, B2.getIx()-5, B2.getIy()-5);
 		g.fillOval(B2.getIx()-4, B2.getIy()-4, 8, 8);
 		g.drawLine(B2.getIx(), B2.getIy(), O2.getIx(), O2.getIy());
 
@@ -94,31 +97,32 @@ public class PanelRobot extends JPanel {
 		g.setColor(Color.lightGray);
 		g.drawLine(min.getIx(), cero.getIy(), max.getIx(), cero.getIy());
 		g.drawLine(cero.getIx(), min.getIy(), cero.getIx(), max.getIy());	
+		
+		System.out.println("O1->B1 "+O1.distanciaReal(B1)+"\t"+O1.distanciaEntera(B1)+"\t\t"+"O2->B2 "+O2.distanciaReal(B2)+"\t"+O2.distanciaEntera(B2));
 	}
 	
-	public void setEscala(int escala){
-		
+	public void setEscala(int escala){		
 		this.escala = (100.0/(escala*1.0));
-		System.out.println("Escala: "+escala+" "+this.escala);
-//		for (Punto p: trayectoria)
-//			real2Pantalla(p);
+	//	System.out.println("Escala: "+escala+" "+this.escala);
 		this.repaint();
 	}
 	
 	public void setOrigen(int x, int y){
-		System.out.println("Origen: "+x+","+y);
+	//	System.out.println("Origen: "+x+","+y);
 		origenX = (x - 5) - 50.0 ;
 		origenY = 200.0 + (y - 50);
 		this.repaint();
 	}
 	
 	private void real2Pantalla(Punto p){
-		Punto tmp = new Punto(p.getDx(), p.getDy());
-		CinematicaInversa.real2Pantalla(tmp);
-		double rx = tmp.getDx() * this.getWidth()*escala + origenX ;
-		double ry = this.getHeight() - ( tmp.getDy() * this.getHeight()*escala + origenY );
-	
-		//System.out.println(p.getDx() + "," + p.getDy()+" -> "+rx+","+ry);
+		double absolutaX = ((p.getDx()-CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X)) ;
+		double absolutaY = 1.0 - ((p.getDy()-CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y));
+			
+	//	double rx = absolutaX * this.getWidth()/2 + origenX;
+	//	double ry = absolutaY * this.getHeight()/2 + origenY;
+		
+		double rx = absolutaX;
+		double ry = absolutaY;
 		p.setIx((int)rx);
 		p.setIy((int)ry);
 	}
@@ -135,7 +139,6 @@ public class PanelRobot extends JPanel {
 		cuantos++;
 	//	System.out.println("T->Real: "+T.getDx()+","+T.getDy() +"\t"+CinematicaInversa.coordenadaRealX+","+CinematicaInversa.coordenadaRealY);
 	//	System.out.println(suma/cuantos);
-
 	}
 	
 	public double promedio(){

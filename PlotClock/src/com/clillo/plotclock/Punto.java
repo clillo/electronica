@@ -7,7 +7,21 @@ public class Punto {
 
 	private double dx;
 	private double dy;
+	
+	private double normalX;
+	private double normalY;
+	
+	public enum PosicionVertical {ARRIBA, ABAJO};
+	
+	private PosicionVertical posicion = PosicionVertical.ARRIBA;
 
+	public Punto(int ix, int iy, PosicionVertical posicion) {
+		super();
+		this.ix = ix;
+		this.iy = iy;
+		this.posicion = posicion;
+	}
+	
 	public Punto(int ix, int iy) {
 		super();
 		this.ix = ix;
@@ -18,6 +32,22 @@ public class Punto {
 		super();
 		this.dx = dx;
 		this.dy = dy;
+	}
+	
+	public double distanciaReal(Punto p){
+		return Math.sqrt( (dx - p.dx) * (dx - p.dx) + (dy - p.dy) * (dy - p.dy));
+	}
+
+	public double distanciaEntera(Punto p){
+		return Math.sqrt((ix - p.ix) * (ix - p.ix) + (iy - p.iy) * (iy - p.iy));
+	}
+
+	public PosicionVertical getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(PosicionVertical posicion) {
+		this.posicion = posicion;
 	}
 
 	public int getIx() {
@@ -47,5 +77,21 @@ public class Punto {
 
 	public void setDy(double dy) {
 		this.dy = dy;
+	}
+
+	public double getNormalX() {
+		return normalX;
+	}
+
+	public void setNormalX(double normalX) {
+		this.normalX = normalX;
+	}
+
+	public double getNormalY() {
+		return normalY;
+	}
+
+	public void setNormalY(double normalY) {
+		this.normalY = normalY;
 	}	
 }

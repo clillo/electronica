@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.clillo.graficas.Matriz;
+import com.clillo.plotclock.Punto.PosicionVertical;
 import com.clillo.plotclock.Servo.Id;
 
 public class CinematicaInversa {
@@ -48,6 +49,8 @@ public class CinematicaInversa {
 	
 	private MatrizConversion matrizConversion = new MatrizConversion();
 	
+	private PosicionVertical posicionActual = PosicionVertical.ARRIBA;
+
 	public MatrizConversion getMatrizConversion() {
 		return matrizConversion;
 	}
@@ -69,8 +72,11 @@ public class CinematicaInversa {
 		n.dibuja(a1, a2, a3, a4);
 		ArrayList<Punto> trayectoria = n.getTrayectoria();
 		
-		for (Punto p: trayectoria)		
+		for (Punto p: trayectoria)	{
+			posicionActual = p.getPosicion();
 			drawTo(p.getDx(), p.getDy());
+		}
+		
 	}
 	
 	public void dibuja(int motor1[], int motor2[]){
@@ -101,12 +107,7 @@ public class CinematicaInversa {
 		coordenadaRealY = (y * (DIBUJO_MAX_Y - DIBUJO_MIN_Y) ) + DIBUJO_MIN_Y;
 		drawTo(coordenadaRealX, coordenadaRealY);
 	}
-	
-	public static void real2Pantalla(Punto p){
-		p.setDx((p.getDx() - DIBUJO_MIN_X) / (DIBUJO_MAX_X - DIBUJO_MIN_X));
-		p.setDy((p.getDy() - DIBUJO_MIN_Y) / (DIBUJO_MAX_Y - DIBUJO_MIN_Y));
-	}
-	
+		
 	public static void pantalla2Real(Punto p){
 		p.setIx((int) ( (p.getDx() * (DIBUJO_MAX_X - DIBUJO_MIN_X) ) + DIBUJO_MIN_X));
 		p.setIy((int) ((p.getDy() * (DIBUJO_MAX_Y - DIBUJO_MIN_Y) ) + DIBUJO_MIN_Y));
@@ -144,10 +145,7 @@ public class CinematicaInversa {
 	}
 	
 	private void setXY(double Tx, double Ty){
-		setXY(Tx, Ty, PanelPrincipal.getServoFaktor(), null);
-	}
-	
-	private void setXY(double Tx, double Ty, double SERVOFAKTOR, PanelRobot panelRobot){
+		double SERVOFAKTOR = 630.0;
 	//	Ty = 70- Ty; 
 	/*	Matriz mRotacion = new Matriz();
 		mRotacion.rotacionz(2.5);
@@ -209,7 +207,7 @@ public class CinematicaInversa {
 		*/
 		
 		if (panelPosicion!=null)
-			panelPosicion.agregaPuntoTrayectoria(Tx, Ty);
+			panelPosicion.agregaPuntoTrayectoria(Tx, Ty, posicionActual);
 
 		int salida[] = matrizConversion.getValor((int)Tx, (int)Ty);
 		
@@ -264,26 +262,4 @@ public class CinematicaInversa {
 		this.panelPosicion = panelPosicion;
 	}
 
-	public static void main(String[] args) {
-		CinematicaInversa ci = new CinematicaInversa(true);
-		
-		double min = 999999999;
-		for (double factor= 100.0; factor< 1000.0; factor = factor+1.0){
-			PanelRobot pr = new PanelRobot();
-			for (double Tx= 0.0; Tx< 100.0; Tx = Tx+1.0)
-				for (double Ty= 0.0; Ty< 100.0; Ty = Ty+1.0){
-					coordenadaRealX = Tx;
-					coordenadaRealY = Ty;
-				
-					ci.setXY(Tx, Ty, factor, pr);
-					pr.conviertePunto();
-				}
-			if (pr.promedio()<min){
-				min = pr.promedio();
-				System.out.println(factor +": "+min);
-			}
-				
-			//System.out.println(factor +": "+pr.promedio());
-		}
-	}
 }
