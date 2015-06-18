@@ -3,7 +3,6 @@ package com.clillo.plotclock;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.clillo.graficas.Matriz;
 import com.clillo.plotclock.Punto.PosicionVertical;
 import com.clillo.plotclock.Servo.Id;
 
@@ -14,16 +13,6 @@ public class CinematicaInversa {
 	private PanelRobot panelRobot;
 	private PanelPosicion panelPosicion;
 
-//	private double SERVOFAKTOR=600; // 630
-	
-	private double SERVOLEFTNULL=2020; //1900
-	private double SERVORIGHTNULL=880;  //984
-	
-	// origin points of left and right servo 
-	private double O1X = 22;
-	private double O1Y = -25;
-	private double O2X = 47;
-	private double O2Y = -25;
 
 	// length of arms
 	public static double L1 = 34.6;  // 35
@@ -51,6 +40,28 @@ public class CinematicaInversa {
 	
 	private PosicionVertical posicionActual = PosicionVertical.ARRIBA;
 
+	private ArrayList<Punto> ultimos = new ArrayList<Punto>();
+	private static final int MEDIA_MOVIL = 20;
+	
+	private void agregaUltimo(int x, int y){
+		Punto p = new Punto(x, y);
+		if (ultimos.size()>MEDIA_MOVIL)
+			ultimos.remove(0);
+		ultimos.add(p);
+	}
+
+	private Punto obtienePromedio(){
+		int sumaX = 0;
+		int sumaY = 0;
+		int cuantos = 0;
+		for (Punto p: ultimos){
+			sumaX+= p.getIx();
+			sumaY+= p.getIy();
+			cuantos++;
+		}
+		return new Punto((int)(sumaX/(cuantos*1.0)), (int)(sumaY/(cuantos*1.0)));
+	}
+
 	public MatrizConversion getMatrizConversion() {
 		return matrizConversion;
 	}
@@ -76,7 +87,6 @@ public class CinematicaInversa {
 			posicionActual = p.getPosicion();
 			drawTo(p.getDx(), p.getDy());
 		}
-		
 	}
 	
 	public void dibuja(int motor1[], int motor2[]){
@@ -145,90 +155,23 @@ public class CinematicaInversa {
 	}
 	
 	private void setXY(double Tx, double Ty){
-		double SERVOFAKTOR = 630.0;
-	//	Ty = 70- Ty; 
-	/*	Matriz mRotacion = new Matriz();
-		mRotacion.rotacionz(2.5);
-		
-		com.clillo.graficas.Punto p = new com.clillo.graficas.Punto();
-		p.setX(Tx);
-		p.setY(Ty);
-		p.setZ(0);
-		
-		com.clillo.graficas.Punto q = mRotacion.multiplicar(p);
-		
-		Tx = q.getX();
-		Ty = q.getY();
-		*/
-		
-		/*
-		double dx, dy, c, a1, a2, Hx, Hy;
-
-		if (panelReal!=null)
-			panelReal.agregaPuntoTrayectoria(Tx, Ty);
-		
-		if (this.panelRobot!=null)
-			this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
-
-		// calculate triangle between pen, servoLeft and arm joint
-		// cartesian dx/dy
-		dx = Tx - O1X;
-		dy = Ty - O1Y;
-
-		// polar lemgth (c) and angle (a1)
-		c = Math.sqrt(dx * dx + dy * dy);
-		a1 = Math.atan2(dy, dx); //
-		a2 = returnAngle(L1, L2, c);
-
-	//	System.out.println("c1: "+c+" a1: "+a1+" a2: "+a2+" angulo: "+(Math.floor(((a2 + a1 - Math.PI) * SERVOFAKTOR)	+ SERVOLEFTNULL)));
-
-		double anguloIzquerdo = Math.floor(((a2 + a1 - Math.PI) * SERVOFAKTOR)	+ SERVOLEFTNULL);
-
-		// calculate joinr arm point for triangle of the right servo arm
-		a2 = returnAngle(L2, L1, c);
-		
-		double angulo = 0.621;// 36,5°
-		Hx = Tx + L3 * Math.cos((a1 - a2 + angulo) + Math.PI); 
-		Hy = Ty + L3 * Math.sin((a1 - a2 + angulo) + Math.PI);
-
-		// calculate triangle between pen joint, servoRight and arm joint
-		dx = Hx - O2X;
-		dy = Hy - O2Y;
-
-		c = Math.sqrt(dx * dx + dy * dy);
-		a1 = Math.atan2(dy, dx);
-		a2 = returnAngle(L1, (L2 - L3), c);
-
-		double anguloDerecho = Math.floor(((a1 - a2) * SERVOFAKTOR) + SERVORIGHTNULL);
-
-		servoDerecho.writeMicroseconds(anguloDerecho);
-		servoIzquerdo.writeMicroseconds(anguloIzquerdo);
-	
-		*/
 		
 		if (panelPosicion!=null)
 			panelPosicion.agregaPuntoTrayectoria(Tx, Ty, posicionActual);
 
 		int salida[] = matrizConversion.getValor((int)Tx, (int)Ty);
-		
-//		panelReal.eliminaPuntoElegidos();
-//		ArrayList<Par> listaElegidos = matrizConversion.getListaPuntosActuales();
-		
-//		if (listaElegidos!=null)
-//			for (Par p: listaElegidos)
-//				panelReal.agregaPuntoElegidos(p);
-		
+	
 		moverHasta(salida[0], salida[1]);
-		
-	//	this.panelRobot.agregaPuntoActual(new Punto(Tx, Ty));
 
 		panelPrincipal.repaint();
 	}
 	
 	public void moverHasta(int angulo1, int angulo2){
-		System.out.println(angulo1+"\t"+angulo2);
-		servoDerecho.writeMicroseconds(angulo1);
-		servoIzquerdo.writeMicroseconds(angulo2);
+		agregaUltimo(angulo1, angulo2);
+		Punto p = obtienePromedio();
+		System.out.println(angulo1+"\t"+angulo2+"\t"+p.toString());
+		servoDerecho.writeMicroseconds(p.getIx());
+		servoIzquerdo.writeMicroseconds(p.getIy());
 	
 		try {
 			if (serial!=null)

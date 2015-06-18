@@ -93,5 +93,17 @@ public class Punto {
 
 	public void setNormalY(double normalY) {
 		this.normalY = normalY;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Punto [ix=");
+		builder.append(ix);
+		builder.append(", iy=");
+		builder.append(iy);
+		builder.append("]");
+		return builder.toString();
 	}	
+
 }

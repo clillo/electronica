@@ -20,12 +20,12 @@ public class Numeros {
 
 	public void dibuja(int a1, int a2, int a3, int a4) {
 		// number(3, 3, 111, 1);
-		number(5, 25, a1, 0.9);
-		number(19, 25, a2, 0.9);
+//		number(5, 25, a1, 0.9);
+//		number(19, 25, a2, 0.9);
 		// number(28, 25, 11, 0.9);
 
 		number(34, 25, a3, 0.9);
-		number(48, 25, a4, 0.9);
+//		number(48, 25, a4, 0.9);
 	}
 
 	// Writing numeral with bx by being the bottom left originpoint. Scale 1
@@ -185,7 +185,7 @@ public class Numeros {
 		p.setPosicion(posicionActual);
 		trayectoria.add(p);
 	}
-
+	
 	public ArrayList<Punto> getTrayectoria() {
 		return trayectoria;
 	}
