@@ -226,6 +226,7 @@ public class CinematicaInversa {
 	}
 	
 	public void moverHasta(int angulo1, int angulo2){
+		System.out.println(angulo1+"\t"+angulo2);
 		servoDerecho.writeMicroseconds(angulo1);
 		servoIzquerdo.writeMicroseconds(angulo2);
 	

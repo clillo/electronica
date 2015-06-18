@@ -14,14 +14,14 @@ public class MatrizConversion {
 		listaPares = new ArrayList<Par>();
 		
 		listaPares.add(new Par(5,24,"0",1685,2004));
-		listaPares.add(new Par(5,30,"1",1889,1771));
-		listaPares.add(new Par(5,36,"2",1847,1809));
-		listaPares.add(new Par(5,42,"3",1781,1859));
+		listaPares.add(new Par(5,30,"1",1734,1919));
+		listaPares.add(new Par(5,36,"2",1750,1833));
+		listaPares.add(new Par(5,42,"3",1896,1788));
 		listaPares.add(new Par(5,48,"4",2044,1707));
 		listaPares.add(new Par(11,24,"5",1583,1925));
 		listaPares.add(new Par(11,30,"6",1644,1832));
 		listaPares.add(new Par(11,36,"7",1690,1777));
-		listaPares.add(new Par(11,42,"8",1720,1798));
+		listaPares.add(new Par(11,42,"8",1699,1795));
 		listaPares.add(new Par(11,48,"9",1907,1637));
 		listaPares.add(new Par(17,24,"10",1461,1863));
 		listaPares.add(new Par(17,30,"11",1534,1776));

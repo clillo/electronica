@@ -98,7 +98,7 @@ public class PanelRobot extends JPanel {
 		g.drawLine(min.getIx(), cero.getIy(), max.getIx(), cero.getIy());
 		g.drawLine(cero.getIx(), min.getIy(), cero.getIx(), max.getIy());	
 		
-		System.out.println("O1->B1 "+O1.distanciaReal(B1)+"\t"+O1.distanciaEntera(B1)+"\t\t"+"O2->B2 "+O2.distanciaReal(B2)+"\t"+O2.distanciaEntera(B2));
+	//	System.out.println("O1->B1 "+O1.distanciaReal(B1)+"\t"+O1.distanciaEntera(B1)+"\t\t"+"O2->B2 "+O2.distanciaReal(B2)+"\t"+O2.distanciaEntera(B2));
 	}
 	
 	public void setEscala(int escala){		
@@ -118,11 +118,11 @@ public class PanelRobot extends JPanel {
 		double absolutaX = ((p.getDx()-CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X)) ;
 		double absolutaY = 1.0 - ((p.getDy()-CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y));
 			
-	//	double rx = absolutaX * this.getWidth()/2 + origenX;
-	//	double ry = absolutaY * this.getHeight()/2 + origenY;
+		double rx = absolutaX * this.getWidth()/2 + origenX;
+		double ry = absolutaY * this.getHeight()/2 + origenY;
 		
-		double rx = absolutaX;
-		double ry = absolutaY;
+	//	double rx = absolutaX;
+	//	double ry = absolutaY;
 		p.setIx((int)rx);
 		p.setIy((int)ry);
 	}
@@ -156,7 +156,7 @@ public class PanelRobot extends JPanel {
 		double x = O1.getDx() + CinematicaInversa.L1*Math.cos(a1*Math.PI/2 + Math.PI/2);
 		double y = O1.getDy() + CinematicaInversa.L1*Math.sin(a1*Math.PI/2 + Math.PI/2);
 		
-		//System.out.println(a1+","+a2+"\t"+x+","+y);
+	//	System.out.println(a1+","+a2+"\t"+x+","+y);
 		B1.setDx(x);
 		B1.setDy(y);
 		

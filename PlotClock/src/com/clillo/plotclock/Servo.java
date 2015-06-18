@@ -14,10 +14,10 @@ public class Servo {
 	
 	public int getAnguloMinimo(){
 		if (id == Id.IZQUERDO )
-			return 900;
+			return 1150;
 
 		if (id == Id.DERECHO )
-			return 1130;
+			return 900;
 
 		return 0;
 	}
