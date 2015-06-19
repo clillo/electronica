@@ -40,6 +40,10 @@ public class Servo {
 		return angulo;
 	}	
 	
+	public double getAnguloNormalizado(double fake){
+		return (fake - getAnguloMinimo()) / (getAnguloMaximo() - getAnguloMinimo());
+	}
+	
 	public double getAnguloNormalizado(){
 		return (angulo - getAnguloMinimo()) / (getAnguloMaximo() - getAnguloMinimo());
 	}

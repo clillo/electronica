@@ -13,12 +13,10 @@ public class CinematicaInversa {
 	private PanelRobot panelRobot;
 	private PanelPosicion panelPosicion;
 
-
-	// length of arms
-	public static double L1 = 34.6;  // 35
-	public static double L2 = 54.5;  // 55.1
-	public static double L3 = 12.6;  // 13.2
-	public static double L4 = 53.9;  // 13.2
+	public final static double L1 = 40.0;  // 35
+	public final static double L2 = 55.0;  // 55.1
+	public final static double L3 = 12.6;  // 13.2
+	public final static double L4 = 55.0;  // 13.2
 
 	public static Servo servoDerecho = new Servo(Id.DERECHO);
 	public static Servo servoIzquerdo = new Servo(Id.IZQUERDO);
@@ -169,7 +167,7 @@ public class CinematicaInversa {
 	public void moverHasta(int angulo1, int angulo2){
 		agregaUltimo(angulo1, angulo2);
 		Punto p = obtienePromedio();
-		System.out.println(angulo1+"\t"+angulo2+"\t"+p.toString());
+	//	System.out.println(angulo1+"\t"+angulo2+"\t"+p.toString());
 		servoDerecho.writeMicroseconds(p.getIx());
 		servoIzquerdo.writeMicroseconds(p.getIy());
 	

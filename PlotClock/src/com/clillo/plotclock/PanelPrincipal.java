@@ -95,7 +95,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(txtCoordenadaRealY);
 
 		panelRobot.setBackground(Color.BLACK);
-		panelRobot.setBounds(725, 252, 408, 402);
+		panelRobot.setBounds(725, 252, 400, 400);
 		add(panelRobot);
 		
 		btnDibuja = new JButton("Dibuja Numeros");
