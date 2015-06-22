@@ -30,7 +30,7 @@ public class PanelRobot extends JPanel {
 	}
 	
 	public void test(){
-		Configuracion configuracion = calculo.getConfiguracion(); 		
+		//Configuracion configuracion = calculo.getConfiguracion(); 		
 		ArrayList<Configuracion> lista = new ArrayList<Configuracion>();
 		
 		for (double origen1X = 20.0; origen1X < 26.0; origen1X += 1) 
@@ -41,6 +41,7 @@ public class PanelRobot extends JPanel {
 							for (double l3 = 50; l3 <= 60; l3 += 0.4) 
 								for (double l1 = 30; l1 <= 40; l1 += 0.4) 
 									for (double angulo3 = 0.1; angulo3 <= 2.00; angulo3 += 0.2) {
+										Configuracion configuracion = new Configuracion();
 										configuracion.setLargoBrazo1(l1);
 										configuracion.setLargoBrazo2(l1);
 										configuracion.setLargoBrazo3(l3);

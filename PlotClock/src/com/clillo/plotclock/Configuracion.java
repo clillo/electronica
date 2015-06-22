@@ -96,24 +96,21 @@ public class Configuracion {
 	public void setAnguloBrazo5(double anguloBrazo5) {
 		this.anguloBrazo5 = anguloBrazo5;
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Configuracion [largoBrazo1=");
 		builder.append(largoBrazo1);
-		builder.append(',');
-		//		builder.append(", largoBrazo2=");
-//		builder.append(largoBrazo2);
-//		builder.append(", largoBrazo3=");
+		builder.append(", largoBrazo2=");
+		builder.append(largoBrazo2);
+		builder.append(", largoBrazo3=");
 		builder.append(largoBrazo3);
-		builder.append(',');
-		
-//		builder.append(", largoBrazo4=");
-//		builder.append(largoBrazo4);
-		//builder.append(", largoBrazo5=");
+		builder.append(", largoBrazo4=");
+		builder.append(largoBrazo4);
+		builder.append(", largoBrazo5=");
 		builder.append(largoBrazo5);
-		builder.append(',');
-/*		builder.append(", origen1X=");
+		builder.append(", origen1X=");
 		builder.append(origen1X);
 		builder.append(", origen1Y=");
 		builder.append(origen1Y);
@@ -122,11 +119,11 @@ public class Configuracion {
 		builder.append(", origen2Y=");
 		builder.append(origen2Y);
 		builder.append(", anguloBrazo5=");
-	*/	builder.append(anguloBrazo5);
+		builder.append(anguloBrazo5);
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	
 }
 
