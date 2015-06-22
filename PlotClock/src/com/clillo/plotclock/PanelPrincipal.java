@@ -28,6 +28,8 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private PanelRobot panelRobot = new PanelRobot();
 
 	private CinematicaInversa cinematica;
+	private Configuracion configuracion = new Configuracion();
+
 	private JTextField txtPosRealX;
 	private JTextField txtPosRealY;
 	private JTextField txtAnguloDerecho;
@@ -48,13 +50,17 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JSpinner spnServo2;
 	private JSpinner spnPosX;
 	private JSpinner spnPosY;
-	public static JSpinner spnAngulo3;
-	public static JSpinner spnL1;
-	public static JSpinner spnL2;
-	public static JSpinner spnL3;
+	private JSpinner spnAngulo3;
+	private JSpinner spnL1;
+	private JSpinner spnL2;
+	private JSpinner spnL3;
 
+	private JButton btnTest;
+	
 	public PanelPrincipal() {
 		setLayout(null);
+		
+		Calculo.setConfiguracion(configuracion);
 		
 		panelPosicion.setListener(this);
 		panelPosicion.setBounds(10, 11, 662, 660);
@@ -179,7 +185,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		panelPosicion.setCinematica(cinematica);
 		
 		spnAngulo3 = new JSpinner();
-		spnAngulo3.setModel(new SpinnerNumberModel(1.15, -3.0, 6.0, 0.05));
+		spnAngulo3.setModel(new SpinnerNumberModel(0.48, -3.0, 6.0, 0.05));
 		spnAngulo3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnAngulo3.addChangeListener(this);
 		spnAngulo3.setBounds(1202, 27, 69, 23);
@@ -190,21 +196,21 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(lblAngulo);
 		
 		spnL1 = new JSpinner();
-		spnL1.setModel(new SpinnerNumberModel(33.8, 0.0, 100.0, 0.5));
+		spnL1.setModel(new SpinnerNumberModel(38.0, 0.0, 100.0, 0.5));
 		spnL1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL1.setBounds(1202, 75, 69, 23);
 		spnL1.addChangeListener(this);
 		add(spnL1);
 		
 		spnL2 = new JSpinner();
-		spnL2.setModel(new SpinnerNumberModel(45.0, 0.0, 100.0, 0.5));
+		spnL2.setModel(new SpinnerNumberModel(56.0, 0.0, 100.0, 0.5));
 		spnL2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL2.setBounds(1202, 124, 69, 23);
 		spnL2.addChangeListener(this);
 		add(spnL2);
 		
 		spnL3 = new JSpinner();
-		spnL3.setModel(new SpinnerNumberModel(11.8, 0.0, 100.0, 0.5));
+		spnL3.setModel(new SpinnerNumberModel(9.0, 0.0, 100.0, 0.5));
 		spnL3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL3.setBounds(1202, 171, 69, 23);
 		spnL3.addChangeListener(this);
@@ -221,6 +227,11 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		JLabel lblL_2 = new JLabel("L3");
 		lblL_2.setBounds(1202, 158, 46, 14);
 		add(lblL_2);
+		
+		btnTest = new JButton("Test");
+		btnTest.addActionListener(this);
+		btnTest.setBounds(1051, 94, 74, 23);
+		add(btnTest);
 	}
 	
 	private String redondea(double d){
@@ -278,6 +289,16 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 				}
 			}.start();
 			
+		if (arg0.getSource().equals(btnTest))
+			new Thread(){
+				@Override
+				public void run() {
+					super.run();
+					panelRobot.test();
+					panelRobot.repaint();
+				}
+			}.start();
+			
 		if (arg0.getSource().equals(btnLimpia)){
 			panelRobot.limpia();
 			panelPosicion.limpia();
@@ -294,12 +315,22 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 			cinematica.moverHasta((int)spnServo1.getValue(), (int)spnServo2.getValue());
 			this.repaint();
 		}
-	
-//		if (arg0.getSource().equals(spnAngulo3)){
-			this.repaint();
-//		}
-		//if (arg0.getSource().equals(spnPosX) || arg0.getSource().equals(spnPosY))
-		//	mover((int)spnPosX.getValue(), (int)spnPosY.getValue(), false, true);
+
+		if (spnL1!=null){
+			configuracion.setLargoBrazo1((double)spnL1.getValue());
+			configuracion.setLargoBrazo2((double)spnL1.getValue());
+		}
+		if (spnL2!=null){
+			configuracion.setLargoBrazo3((double)spnL2.getValue());
+			configuracion.setLargoBrazo4((double)spnL2.getValue());
+		}
+		if (spnL3!=null)
+			configuracion.setLargoBrazo5((double)spnL3.getValue());
+
+		if (spnAngulo3!=null)
+			configuracion.setAnguloBrazo5((double)spnAngulo3.getValue());
+
+		this.repaint();
 	}
 
 	@Override
