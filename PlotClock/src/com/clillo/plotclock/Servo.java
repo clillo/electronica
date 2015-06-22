@@ -12,27 +12,31 @@ public class Servo {
 		this.id = id;
 	}
 	
-	public int getAnguloMinimo(){
+	public double getAnguloMinimo(){
 		if (id == Id.IZQUERDO )
-			return 1150;
+			return 890.0;
 
 		if (id == Id.DERECHO )
-			return 900;
+			return 1133.0;
 
-		return 0;
+		return 0.0;
 	}
 
-	public int getAnguloMaximo(){
+	public double getAnguloMaximo(){
 		if (id == Id.IZQUERDO )
-			return 1900;
+			return 1908.0;
 
 		if (id == Id.DERECHO )
-			return 2100;
+			return 2065.0;
 
-		return 0;
+		return 0.0;
 	}
 	
 	public void writeMicroseconds(double angulo){
+		if (angulo<getAnguloMinimo()-20)
+			return;
+		if (angulo>getAnguloMaximo()+20)
+			return;
 		this.angulo = angulo;
 	}
 
@@ -45,7 +49,9 @@ public class Servo {
 	}
 	
 	public double getAnguloNormalizado(){
-		return (angulo - getAnguloMinimo()) / (getAnguloMaximo() - getAnguloMinimo());
+		double rango = getAnguloMaximo() - getAnguloMinimo();
+	//	System.out.println(angulo+"\t"+rango);
+		return (angulo - getAnguloMinimo()) / rango;
 	}
 	
 	public double getAnguloNormalizadoGrados(){

@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Font;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionListener, ChangeListener, AdjustmentListener{
 
@@ -47,25 +48,29 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 	private JSpinner spnServo2;
 	private JSpinner spnPosX;
 	private JSpinner spnPosY;
-	
+	public static JSpinner spnAngulo3;
+	public static JSpinner spnL1;
+	public static JSpinner spnL2;
+	public static JSpinner spnL3;
+
 	public PanelPrincipal() {
 		setLayout(null);
 		
 		panelPosicion.setListener(this);
-		panelPosicion.setBounds(10, 11, 705, 660);
+		panelPosicion.setBounds(10, 11, 662, 660);
 		add(panelPosicion);
 		
 		scrlRobotY = new JScrollBar();
 		scrlRobotY.addAdjustmentListener(this);
 	//	scrlRobotY.setValue(100);
-		scrlRobotY.setBounds(1132, 252, 17, 402);
+		scrlRobotY.setBounds(1158, 130, 17, 48);
 		add(scrlRobotY);
 		
 		scrlRobotX = new JScrollBar();
 		scrlRobotX.setOrientation(JScrollBar.HORIZONTAL);
 		scrlRobotX.addAdjustmentListener(this);
 	//	scrlRobotX.setValue(100);
-		scrlRobotX.setBounds(725, 654, 408, 17);
+		scrlRobotX.setBounds(666, 668, 408, 17);
 		add(scrlRobotX);
 		
 		txtPosRealX = new JTextField();
@@ -95,45 +100,45 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(txtCoordenadaRealY);
 
 		panelRobot.setBackground(Color.BLACK);
-		panelRobot.setBounds(725, 252, 400, 400);
+		panelRobot.setBounds(682, 190, 483, 481);
 		add(panelRobot);
 		
 		btnDibuja = new JButton("Dibuja Numeros");
-		btnDibuja.setBounds(722, 171, 113, 23);
+		btnDibuja.setBounds(725, 137, 113, 23);
 		btnDibuja.addActionListener(this);
 		add(btnDibuja);
 		
 		txtD1 = new JTextField();
 		txtD1.setText("5");
-		txtD1.setBounds(858, 174, 28, 20);
+		txtD1.setBounds(861, 140, 28, 20);
 		add(txtD1);
 		txtD1.setColumns(10);
 		
 		txtD2 = new JTextField();
 		txtD2.setText("6");
 		txtD2.setColumns(10);
-		txtD2.setBounds(897, 174, 28, 20);
+		txtD2.setBounds(900, 140, 28, 20);
 		add(txtD2);
 		
 		txtD3 = new JTextField();
 		txtD3.setText("7");
 		txtD3.setColumns(10);
-		txtD3.setBounds(935, 174, 28, 20);
+		txtD3.setBounds(938, 140, 28, 20);
 		add(txtD3);
 		
 		txtD4 = new JTextField();
 		txtD4.setText("9");
 		txtD4.setColumns(10);
-		txtD4.setBounds(971, 174, 28, 20);
+		txtD4.setBounds(974, 140, 28, 20);
 		add(txtD4);
 		
 		btnLimpia = new JButton("Limpia");
-		btnLimpia.setBounds(1020, 171, 74, 23);
+		btnLimpia.setBounds(1023, 137, 74, 23);
 		btnLimpia.addActionListener(this);
 		add(btnLimpia);
 		
 		sldrEscala = new JSlider();
-		sldrEscala.setBounds(725, 225, 408, 23);
+		sldrEscala.setBounds(725, 171, 408, 23);
 		sldrEscala.addChangeListener(this);
 		sldrEscala.setMinimum(10);
 		sldrEscala.setMaximum(500);
@@ -146,15 +151,17 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		cinematica.setPanelRobot(panelRobot);
 		
 		spnServo1 = new JSpinner();
+		spnServo1.setValue(1400);
 		spnServo1.addChangeListener(this);
 		spnServo1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		spnServo1.setBounds(932, 21, 92, 33);
+		spnServo1.setBounds(1041, 21, 92, 33);
 		add(spnServo1);
 		
 		spnServo2 = new JSpinner();
+		spnServo2.setValue(1400);
 		spnServo2.addChangeListener(this);
 		spnServo2.setFont(new Font("Tahoma", Font.BOLD, 18));
-		spnServo2.setBounds(1041, 21, 92, 33);
+		spnServo2.setBounds(939, 21, 92, 33);
 		add(spnServo2);
 		
 		spnPosX = new JSpinner();
@@ -170,6 +177,50 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(spnPosY);
 		
 		panelPosicion.setCinematica(cinematica);
+		
+		spnAngulo3 = new JSpinner();
+		spnAngulo3.setModel(new SpinnerNumberModel(1.15, -3.0, 6.0, 0.05));
+		spnAngulo3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnAngulo3.addChangeListener(this);
+		spnAngulo3.setBounds(1202, 27, 69, 23);
+		add(spnAngulo3);
+		
+		JLabel lblAngulo = new JLabel("Angulo 3");
+		lblAngulo.setBounds(1202, 11, 46, 14);
+		add(lblAngulo);
+		
+		spnL1 = new JSpinner();
+		spnL1.setModel(new SpinnerNumberModel(33.8, 0.0, 100.0, 0.5));
+		spnL1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnL1.setBounds(1202, 75, 69, 23);
+		spnL1.addChangeListener(this);
+		add(spnL1);
+		
+		spnL2 = new JSpinner();
+		spnL2.setModel(new SpinnerNumberModel(45.0, 0.0, 100.0, 0.5));
+		spnL2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnL2.setBounds(1202, 124, 69, 23);
+		spnL2.addChangeListener(this);
+		add(spnL2);
+		
+		spnL3 = new JSpinner();
+		spnL3.setModel(new SpinnerNumberModel(11.8, 0.0, 100.0, 0.5));
+		spnL3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		spnL3.setBounds(1202, 171, 69, 23);
+		spnL3.addChangeListener(this);
+		add(spnL3);
+		
+		JLabel lblL = new JLabel("L1");
+		lblL.setBounds(1202, 61, 46, 14);
+		add(lblL);
+		
+		JLabel lblL_1 = new JLabel("L2");
+		lblL_1.setBounds(1202, 109, 46, 14);
+		add(lblL_1);
+		
+		JLabel lblL_2 = new JLabel("L3");
+		lblL_2.setBounds(1202, 158, 46, 14);
+		add(lblL_2);
 	}
 	
 	private String redondea(double d){
@@ -204,8 +255,8 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 			
 			spnServo1.removeChangeListener(this);
 			spnServo2.removeChangeListener(this);
-			spnServo1.setValue((int)CinematicaInversa.servoIzquerdo.getAngulo());
-			spnServo2.setValue((int)CinematicaInversa.servoDerecho.getAngulo());
+			spnServo2.setValue((int)CinematicaInversa.servoIzquerdo.getAngulo());
+			spnServo1.setValue((int)CinematicaInversa.servoDerecho.getAngulo());
 			spnServo1.addChangeListener(this);
 			spnServo2.addChangeListener(this);
 			txtAnguloDerecho.setText(CinematicaInversa.servoIzquerdo.getEstado()+","+CinematicaInversa.servoDerecho.getEstado());
@@ -239,9 +290,14 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		if (arg0.getSource().equals(sldrEscala))
 			panelRobot.setEscala(sldrEscala.getValue());
 	
-		if (arg0.getSource().equals(spnServo1) || arg0.getSource().equals(spnServo2))
+		if (arg0.getSource().equals(spnServo1) || arg0.getSource().equals(spnServo2)){
 			cinematica.moverHasta((int)spnServo1.getValue(), (int)spnServo2.getValue());
+			this.repaint();
+		}
 	
+//		if (arg0.getSource().equals(spnAngulo3)){
+			this.repaint();
+//		}
 		//if (arg0.getSource().equals(spnPosX) || arg0.getSource().equals(spnPosY))
 		//	mover((int)spnPosX.getValue(), (int)spnPosY.getValue(), false, true);
 	}

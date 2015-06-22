@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import com.clillo.plotclock.core.Calculo;
-
 public class PanelRobot extends JPanel {
 	
 	private static final long serialVersionUID = 4075738060965200021L;
@@ -23,9 +21,8 @@ public class PanelRobot extends JPanel {
 	private MatrizConversion mc = new MatrizConversion();
 
 	public PanelRobot() {
-		calculo.setup(CinematicaInversa.L1, CinematicaInversa.L2, CinematicaInversa.L4);
 		this.setBackground(Color.BLACK);
-		setOrigen(140, -200);
+		setOrigen(140, -100);
 	}
 	
 	public void limpia(){
@@ -71,13 +68,20 @@ public class PanelRobot extends JPanel {
 		g.fillOval(calculo.getB2().getIx()-4, calculo.getB2().getIy()-4, 8, 8);
 		g.drawLine(calculo.getB2().getIx(), calculo.getB2().getIy(), calculo.getO2().getIx(), calculo.getO2().getIy());
 
-		real2Pantalla(calculo.getT());
-		trayectoriaReal.add(new Punto(calculo.getT().getDx(), calculo.getT().getDy()));
+		real2Pantalla(calculo.getH());
 
+		g.fillOval(calculo.getH().getIx()-4, calculo.getH().getIy()-4, 8, 8);
+		g.drawBytes("H".getBytes(), 0, 1, calculo.getH().getIx()-5, calculo.getH().getIy()-5);
+		g.drawLine(calculo.getH().getIx(), calculo.getH().getIy(), calculo.getB1().getIx(), calculo.getB1().getIy());
+		g.drawLine(calculo.getH().getIx(), calculo.getH().getIy(), calculo.getB2().getIx(), calculo.getB2().getIy());
+		
+		real2Pantalla(calculo.getT());
 		g.fillOval(calculo.getT().getIx()-4, calculo.getT().getIy()-4, 8, 8);
 
-		g.drawLine(calculo.getT().getIx(), calculo.getT().getIy(), calculo.getB1().getIx(), calculo.getB1().getIy());
-		g.drawLine(calculo.getT().getIx(), calculo.getT().getIy(), calculo.getB2().getIx(), calculo.getB2().getIy());
+		g.drawLine(calculo.getH().getIx(), calculo.getH().getIy(), calculo.getT().getIx(), calculo.getT().getIy());
+
+		trayectoriaReal.add(new Punto(calculo.getT().getDx(), calculo.getT().getDy()));
+
 		
 		Punto min = new Punto(CinematicaInversa.DIBUJO_MIN_X, CinematicaInversa.DIBUJO_MIN_Y);
 		Punto max = new Punto(CinematicaInversa.DIBUJO_MAX_X, CinematicaInversa.DIBUJO_MAX_Y);
@@ -93,10 +97,10 @@ public class PanelRobot extends JPanel {
 		
 		for (Par p: mc.getListaPares()){
 			
-			double a1 = CinematicaInversa.servoIzquerdo.getAnguloNormalizado(p.getMotor2());
-			double a2 = CinematicaInversa.servoDerecho.getAnguloNormalizado(p.getMotor1());
+			double a2 = CinematicaInversa.servoIzquerdo.getAnguloNormalizado(p.getMotor1());
+			double a1 = CinematicaInversa.servoDerecho.getAnguloNormalizado(p.getMotor2());
 		//	System.out.println(p.getMotor1()+","+p.getMotor2()+"\t"+a1+","+a2);
-			calculo.calculaPosicionBrazo(a1, a2);
+			calculo.calculaPosicionBrazo(a2, a1);
 			real2Pantalla(calculo.getT());
 			g.setColor(Color.cyan);
 			g.fillOval(calculo.getT().getIx()-1, calculo.getT().getIy()-1, 2, 2);
@@ -124,8 +128,8 @@ public class PanelRobot extends JPanel {
 		double absolutaX = ((p.getDx()-CinematicaInversa.DIBUJO_MIN_X) / (CinematicaInversa.DIBUJO_MAX_X - CinematicaInversa.DIBUJO_MIN_X)) ;
 		double absolutaY = 1.0 - ((p.getDy()-CinematicaInversa.DIBUJO_MIN_Y) / (CinematicaInversa.DIBUJO_MAX_Y - CinematicaInversa.DIBUJO_MIN_Y));
 			
-		double rx = absolutaX * this.getWidth()/2 + origenX;
-		double ry = absolutaY * this.getHeight()/2 + origenY;
+		double rx = absolutaX * this.getWidth()*escala + origenX;
+		double ry = absolutaY * this.getHeight()*escala + origenY;
 		
 	//	double rx = absolutaX;
 	//	double ry = absolutaY;

@@ -54,9 +54,11 @@ public class Serial  {
 	}	
 	
 	public void punto(Servo servo1, Servo servo2) throws IOException{
+		
+	//	System.out.println((int)servo1.getAngulo()+"\t"+(int)servo2.getAngulo());
 		motor ((int)servo1.getAngulo());
 		motor ((int)servo2.getAngulo());
-		if (outputStream!=null)
+	if (outputStream!=null)
 			outputStream.flush();
 	}
 	

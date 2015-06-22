@@ -13,16 +13,16 @@ public class CinematicaInversa {
 	private PanelRobot panelRobot;
 	private PanelPosicion panelPosicion;
 
-	public final static double L1 = 40.0;  // 35
-	public final static double L2 = 55.0;  // 55.1
+	public final static double L1 = 33.89;  // 35
+	public final static double L2 = 44.0;  // 55.1
 	public final static double L3 = 12.6;  // 13.2
-	public final static double L4 = 55.0;  // 13.2
+	public final static double L4 = 44.0;  // 13.2
 
 	public static Servo servoDerecho = new Servo(Id.DERECHO);
 	public static Servo servoIzquerdo = new Servo(Id.IZQUERDO);
 	
-	private double lastX = 75;
-	private double lastY = 47.5;
+	private double lastX = 65;
+	private double lastY = 23;
 	
 	public static double DIBUJO_MIN_X = 1.0;
 	public static double DIBUJO_MAX_X = 70.0;
@@ -39,7 +39,7 @@ public class CinematicaInversa {
 	private PosicionVertical posicionActual = PosicionVertical.ARRIBA;
 
 	private ArrayList<Punto> ultimos = new ArrayList<Punto>();
-	private static final int MEDIA_MOVIL = 20;
+	private static final int MEDIA_MOVIL = 1;
 	
 	private void agregaUltimo(int x, int y){
 		Punto p = new Punto(x, y);
@@ -126,6 +126,7 @@ public class CinematicaInversa {
 	}
 	
 	private void drawTo(double pX, double pY) {
+		
 		double dx, dy, c;
 		int i;
 
@@ -153,7 +154,8 @@ public class CinematicaInversa {
 	}
 	
 	private void setXY(double Tx, double Ty){
-		
+	//	System.out.println(Tx+","+Ty);
+
 		if (panelPosicion!=null)
 			panelPosicion.agregaPuntoTrayectoria(Tx, Ty, posicionActual);
 
@@ -168,13 +170,13 @@ public class CinematicaInversa {
 		agregaUltimo(angulo1, angulo2);
 		Punto p = obtienePromedio();
 	//	System.out.println(angulo1+"\t"+angulo2+"\t"+p.toString());
-		servoDerecho.writeMicroseconds(p.getIx());
-		servoIzquerdo.writeMicroseconds(p.getIy());
+		servoIzquerdo.writeMicroseconds(p.getIx());
+		servoDerecho.writeMicroseconds(p.getIy());
 	
 		try {
 			if (serial!=null)
 			//	serial.punto(servoIzquerdo, servoDerecho);
-				serial.punto(servoDerecho, servoIzquerdo);
+				serial.punto(servoIzquerdo, servoDerecho);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
