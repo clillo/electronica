@@ -8,6 +8,12 @@ public class Par {
 	private int motor2;
 	private String id;
 	
+	private double motor1Normalizado;
+	private double motor2Normalizado;
+	
+	private double xNormalizado;
+	private double yNormalizado;
+	
 	public Par(int x, int y, String id) {
 		super();
 		this.x = x;
@@ -57,6 +63,30 @@ public class Par {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public double getMotor1Normalizado() {
+		return motor1Normalizado;
+	}
+	public void setMotor1Normalizado(double motor1Normalizado) {
+		this.motor1Normalizado = motor1Normalizado;
+	}
+	public double getMotor2Normalizado() {
+		return motor2Normalizado;
+	}
+	public void setMotor2Normalizado(double motor2Normalizado) {
+		this.motor2Normalizado = motor2Normalizado;
+	}	
+	public double getxNormalizado() {
+		return xNormalizado;
+	}
+	public void setxNormalizado(double xNormalizado) {
+		this.xNormalizado = xNormalizado;
+	}
+	public double getyNormalizado() {
+		return yNormalizado;
+	}
+	public void setyNormalizado(double yNormalizado) {
+		this.yNormalizado = yNormalizado;
 	}
 	@Override
 	public String toString() {

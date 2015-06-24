@@ -29,54 +29,102 @@ public class PanelRobot extends JPanel {
 		trayectoriaReal.clear();
 	}
 	
-	public void test(){
-		//Configuracion configuracion = calculo.getConfiguracion(); 		
-		ArrayList<Configuracion> lista = new ArrayList<Configuracion>();
+	private long itera(long total, Configuracion configuracion){
+		boolean contar = false;
 		
-		for (double origen1X = 20.0; origen1X < 26.0; origen1X += 1) 
-	//		for (double origen1Y = -30.0; origen1Y > -35.0; origen1Y -= 1) 
-				for (double origen2X = 40.0; origen2X < 50.0; origen2X += 1) 
-					for (double origen2Y = -30.0; origen2Y > -35.0; origen2Y -= 1){
-						for (double l5 = 0.2; l5 <= 10; l5 += 0.4) 
-							for (double l3 = 50; l3 <= 60; l3 += 0.4) 
-								for (double l1 = 30; l1 <= 40; l1 += 0.4) 
-									for (double angulo3 = 0.1; angulo3 <= 2.00; angulo3 += 0.2) {
-										Configuracion configuracion = new Configuracion();
-										configuracion.setLargoBrazo1(l1);
-										configuracion.setLargoBrazo2(l1);
-										configuracion.setLargoBrazo3(l3);
-										configuracion.setLargoBrazo4(l3);
-										configuracion.setLargoBrazo5(l5);
-										configuracion.setAnguloBrazo5(angulo3);
-										
-										configuracion.setOrigen1X(origen1X);
-										configuracion.setOrigen1Y(origen2Y);
-										configuracion.setOrigen2X(origen2X);
-										configuracion.setOrigen2Y(origen2Y);
-
-										lista.add(configuracion);
-							
-					}
-			System.out.println("paso ("+lista.size()+" elementos)");
-		}
-		System.out.println("FIN ("+lista.size()+" elementos)");
+		if(total==0)
+			contar = true;
 		
+		long n = 0;
 		Configuracion configuracionMin = null;
 		double min = 999999999;
-		int n=1;
-		for(Configuracion c: lista){
-			double p = n/(lista.size()*1.0)*100.0;
-			if (n%100000==0)
-				System.out.println("Probando "+n+" de "+lista.size()+" ("+p+"%) "+min+"\t"+configuracionMin);
-			Calculo.setConfiguracion(c);
-			realizaTest(null);
 
-			if (sumaDistancias > 0	&& sumaDistancias < min) {
-				min = sumaDistancias;
-				configuracionMin = c;
+		long tiempoInicial = System.currentTimeMillis();
+		String tiempoAnterior = "";
+		
+		long cantidades[] = {0, 0, 0, 0, 0, 0, 0, 0};
+		
+		for (double origen1X = 20.0; origen1X < 30.0; origen1X += 0.5){
+			cantidades[0]++;
+			cantidades[1]=0;
+			for (double origen1Y = -30.0; origen1Y > -35.0; origen1Y -= 0.5){
+				cantidades[1]++;
+				cantidades[2]=0;
+				for (double origen2X = 40.0; origen2X < 50.0; origen2X += 0.5){
+					cantidades[2]++;
+					cantidades[3]=0;
+					for (double origen2Y = origen1Y; origen2Y >= origen1Y; origen2Y -= 0.5){
+						cantidades[3]++;
+						cantidades[4]=0;
+						for (double l5 = 0.2; l5 <= 10; l5 += 0.2){
+							cantidades[4]++;
+							cantidades[5]=0;
+							for (double l3 = 50; l3 <= 60; l3 += 0.2){
+								cantidades[5]++;
+								cantidades[6]=0;
+								for (double l1 = 30; l1 <= 40; l1 += 0.2){
+									cantidades[6]++;
+									cantidades[7]=0;
+									for (double angulo3 = 0.1; angulo3 <= 2.00; angulo3 += 0.05) {
+										cantidades[7]++;
+										if (!contar){
+											configuracion.setLargoBrazo1(l1);
+											configuracion.setLargoBrazo2(l1);
+											configuracion.setLargoBrazo3(l3);
+											configuracion.setLargoBrazo4(l3);
+											configuracion.setLargoBrazo5(l5);
+											configuracion.setAnguloBrazo5(angulo3);
+											
+											configuracion.setOrigen1X(origen1X);
+											configuracion.setOrigen1Y(origen2Y);
+											configuracion.setOrigen2X(origen2X);
+											configuracion.setOrigen2Y(origen2Y);
+											
+											realizaTest(null);
+
+											if (sumaDistancias > 0	&& sumaDistancias < min) {
+												min = sumaDistancias;
+												configuracionMin = new Configuracion(configuracion);
+											}
+											
+											String tiempo = Util.getTiempo(tiempoInicial);
+											if (!tiempo.substring(0,3).equals(tiempoAnterior)){
+												double p = n/(total*1.0)*100.0;
+												System.out.println(tiempo+ "\tProbando "+Util.miles(n)+" de "+Util.miles(total)+" ("+Util.redondea(p)+" %) "+Util.redondea(min)+"\t"+configuracionMin);
+												tiempoAnterior = tiempo.substring(0,3);
+											}
+
+										}
+										if (contar)
+											total++;
+										
+										n++;							
+									}
+									
+								}
+//								if (contar)
+//									System.out.println("paso ("+Util.miles(total)+" elementos)");
+							}
+						}
+					}
+				}
 			}
-			n++;
 		}
+		
+		if (contar)
+			for (int i=0; i<cantidades.length; i++)
+				System.out.println(i+"\t"+cantidades[i]);
+		else
+			System.out.println(Util.getTiempo(tiempoInicial) + "\t"+Util.redondea(min)+"\t"+configuracionMin);
+		
+		return total;
+	}
+	
+	public void test(){
+		Configuracion configuracion = calculo.getConfiguracion(); 		
+		
+		long total = itera(0, configuracion);
+		itera(total, configuracion);
 	}
 	
 	@Override
@@ -208,5 +256,10 @@ public class PanelRobot extends JPanel {
 	/**
 	 * 
 		4.200000000000001	66.15068884362896	Configuracion [largoBrazo1=32.80000000000004,57.80000000000011,0.2,1.7100000000000013]
+		Probando 253400000 de 253500000 (99.96055226824457%) 295.7957571841528	Configuracion [largoBrazo1=39.999999999999964, largoBrazo2=39.999999999999964, largoBrazo3=56.799999999999976, largoBrazo4=56.799999999999976, largoBrazo5=1.4, origen1X=22.0, origen1Y=-33.0, origen2X=49.0, origen2Y=-33.0, anguloBrazo5=1.8999999999999997]
+ 082:47	500.395		Configuracion [largoBrazo1=39.9999, largoBrazo2=39.9999, largoBrazo3=57.5999, largoBrazo4=57.5999, largoBrazo5=0.2, origen1X=21.0, origen1Y=-33.0, origen2X=49.0, origen2Y=-33.0, anguloBrazo5=0.9]
+054:13	499.9507	Configuracion [largoBrazo1=39.9999, largoBrazo2=39.9999, largoBrazo3=58.3999, largoBrazo4=58.3999, largoBrazo5=0.2, origen1X=21.0, origen1Y=-34.0, origen2X=49.0, origen2Y=-34.0, anguloBrazo5=1.8]
+042:58	47.0	Configuracion [largoBrazo1=30.0, largoBrazo2=30.0, largoBrazo3=50.0, largoBrazo4=50.0, largoBrazo5=9.4, origen1X=20.0, origen1Y=-30.0, origen2X=41.0, origen2Y=-30.0, anguloBrazo5=0.7999]
+
 	 */
 }

@@ -2,19 +2,19 @@ package com.clillo.plotclock;
 
 public class Configuracion {
 
-	private double largoBrazo1 = 33.89;  
-	private double largoBrazo2 = 33.89;
-	private double largoBrazo3 = 45.0;  
-	private double largoBrazo4 = 45.0;  
-	private double largoBrazo5 = 15.6;  
+	private double largoBrazo1 = 39.999;  
+	private double largoBrazo2 = 39.999;
+	private double largoBrazo3 = 56.7999;  
+	private double largoBrazo4 = 56.7999;  
+	private double largoBrazo5 = 1.4;  
 
-	private double origen1X = 21.0;
-	private double origen1Y = -32.0;
+	private double origen1X = 22.0;
+	private double origen1Y = -33.0;
 	
-	private double origen2X = 48.4;
-	private double origen2Y = -32.0;
+	private double origen2X = 49.0;
+	private double origen2Y = -33.0;
 	
-	private double anguloBrazo5 = 0.3;
+	private double anguloBrazo5 = 1.899;
 	
 	public Configuracion() {
 		
@@ -101,29 +101,27 @@ public class Configuracion {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Configuracion [largoBrazo1=");
-		builder.append(largoBrazo1);
+		builder.append(Util.redondea(largoBrazo1));
 		builder.append(", largoBrazo2=");
-		builder.append(largoBrazo2);
+		builder.append(Util.redondea(largoBrazo2));
 		builder.append(", largoBrazo3=");
-		builder.append(largoBrazo3);
+		builder.append(Util.redondea(largoBrazo3));
 		builder.append(", largoBrazo4=");
-		builder.append(largoBrazo4);
+		builder.append(Util.redondea(largoBrazo4));
 		builder.append(", largoBrazo5=");
-		builder.append(largoBrazo5);
+		builder.append(Util.redondea(largoBrazo5));
 		builder.append(", origen1X=");
-		builder.append(origen1X);
+		builder.append(Util.redondea(origen1X));
 		builder.append(", origen1Y=");
-		builder.append(origen1Y);
+		builder.append(Util.redondea(origen1Y));
 		builder.append(", origen2X=");
-		builder.append(origen2X);
+		builder.append(Util.redondea(origen2X));
 		builder.append(", origen2Y=");
-		builder.append(origen2Y);
+		builder.append(Util.redondea(origen2Y));
 		builder.append(", anguloBrazo5=");
-		builder.append(anguloBrazo5);
+		builder.append(Util.redondea(anguloBrazo5));
 		builder.append("]");
 		return builder.toString();
 	}
-
-	
 }
 

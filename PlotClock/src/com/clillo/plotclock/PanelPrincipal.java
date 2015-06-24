@@ -185,7 +185,7 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		panelPosicion.setCinematica(cinematica);
 		
 		spnAngulo3 = new JSpinner();
-		spnAngulo3.setModel(new SpinnerNumberModel(0.48, -3.0, 6.0, 0.05));
+		spnAngulo3.setModel(new SpinnerNumberModel(configuracion.getAnguloBrazo5(), -3.0, 6.0, 0.05));
 		spnAngulo3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnAngulo3.addChangeListener(this);
 		spnAngulo3.setBounds(1202, 27, 69, 23);
@@ -196,21 +196,21 @@ public class PanelPrincipal extends JPanel implements ListenerPosicion, ActionLi
 		add(lblAngulo);
 		
 		spnL1 = new JSpinner();
-		spnL1.setModel(new SpinnerNumberModel(38.0, 0.0, 100.0, 0.5));
+		spnL1.setModel(new SpinnerNumberModel(configuracion.getLargoBrazo1(), 0.0, 100.0, 0.5));
 		spnL1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL1.setBounds(1202, 75, 69, 23);
 		spnL1.addChangeListener(this);
 		add(spnL1);
 		
 		spnL2 = new JSpinner();
-		spnL2.setModel(new SpinnerNumberModel(56.0, 0.0, 100.0, 0.5));
+		spnL2.setModel(new SpinnerNumberModel(configuracion.getLargoBrazo3(), 0.0, 100.0, 0.5));
 		spnL2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL2.setBounds(1202, 124, 69, 23);
 		spnL2.addChangeListener(this);
 		add(spnL2);
 		
 		spnL3 = new JSpinner();
-		spnL3.setModel(new SpinnerNumberModel(9.0, 0.0, 100.0, 0.5));
+		spnL3.setModel(new SpinnerNumberModel(configuracion.getLargoBrazo5(), 0.0, 100.0, 0.5));
 		spnL3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		spnL3.setBounds(1202, 171, 69, 23);
 		spnL3.addChangeListener(this);
